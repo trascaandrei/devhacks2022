@@ -17,7 +17,7 @@ const ActivitySchema = new Schema({
         type: String
     },
     details: {
-        type: Map
+        type: [String]
     }
 });
 
