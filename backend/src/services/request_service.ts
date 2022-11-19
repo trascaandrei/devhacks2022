@@ -60,6 +60,10 @@ export class RequestService extends Service {
                         description: '$activities.description',
                         details: '$activities.details'
                     },
+                    action: {
+                        title: "$actions.title",
+                        description: "$actions.description"
+                    },
                     company: {
                         cui: '$companies.cui',
                         email: '$companies.email'
@@ -102,7 +106,11 @@ export class RequestService extends Service {
                     ongId: '$actions.ongId',
                     activityId: '$actions.activityId',
                     ongDetails: '$actions.details',
-                    companyDetails: '$details'
+                    companyDetails: '$details',
+                    action: {
+                        title: '$actions.title',
+                        description: '$actions.description'
+                    }
                 }
             }
         ]);

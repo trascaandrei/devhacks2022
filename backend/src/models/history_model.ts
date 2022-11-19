@@ -31,7 +31,18 @@ const HistorySchema = new Schema({
     status: {
         type: String,
         required: true,
-        enum: [RequestStatus.ACCEPTED, RequestStatus.COMPLETED]
+        enum: [RequestStatus.COMPLETED, RequestStatus.REJECTED]
+    },
+    action: {
+        _id: false,
+        title: {
+            type: String,
+            required: true
+        },
+        description: {
+            type: String,
+            required: true
+        }
     }
 });
 

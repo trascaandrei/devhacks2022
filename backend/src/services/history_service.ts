@@ -57,6 +57,7 @@ export class HistoryService extends Service {
                         description: '$activities.description',
                         details: '$activities.details'
                     },
+                    action: 1,
                     ong: {
                         cui: "$ongs.cui",
                         email: "$ongs.email"

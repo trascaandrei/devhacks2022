@@ -13,6 +13,8 @@ export class ActionController extends Controller {
             actionId: v4(),
             ongId: req.userId,
             activityId: req.body.activityId,
+            title: req.body.title,
+            description: req.body.description,
             details: req.body.details
         };
 

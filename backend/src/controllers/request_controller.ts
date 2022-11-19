@@ -52,7 +52,8 @@ export class RequestController extends Controller {
         const status: RequestStatus = req.body.status;
         const nextStatus: RequestStatus | null = this._getNextStatus(request.status);
 
-        if (((nextStatus === null && status !== RequestStatus.REJECTED) || status !== nextStatus)) {
+        if (nextStatus === null || (status !== RequestStatus.REJECTED && status !== nextStatus)
+                || (status === RequestStatus.REJECTED && request.status === RequestStatus.ACCEPTED)) {
             throw new ServerError(Constants.ERR_MESSAGES.UNAUTHORIZED, Constants.STATUS_CODE.UNAUTHORIZED);
         }
 
@@ -66,7 +67,8 @@ export class RequestController extends Controller {
                 companyId: request.companyId,
                 companyDetails: request.companyDetails,
                 ongDetails: request.ongDetails,
-                status
+                status,
+                action: request.action
             };
 
             await this._historyService.add(historyData)
