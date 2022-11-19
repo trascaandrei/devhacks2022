@@ -1,4 +1,21 @@
 .dashboard-content {
     margin-left: 300px;
-    margin-right: 50px;
+    margin-right: 100px;
+    margin-top: -30px;
+}
+
+.dashboard-activities {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard-activities-table {
+    flex: 0 0 70%;
+}
+
+.dashboard-activities-linechart {
+    background-color: #228B22;
+    padding: 20px;
+    border-radius: 20px;
 }
