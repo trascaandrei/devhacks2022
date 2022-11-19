@@ -3,8 +3,6 @@ import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import routes from './utils/routes';
 
-// import Footer from './components/Layout/Footer';
-
 const theme = createTheme({
 	palette: {
 	  primary: {

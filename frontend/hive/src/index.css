@@ -11,3 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'IntroRust';
+  src: local('IntroRust'), url(assets/fonts/IntroRust.otf) format('opentype');
+}
+
+@font-face {
+  font-family: 'Muli';
+  src: local('Muli'), url(assets/fonts/Muli.ttf) format('truetype');
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'IntroRust', sans-serif !important;
+}
+
+* {
+  font-family: 'Muli', sans-serif !important;
+}

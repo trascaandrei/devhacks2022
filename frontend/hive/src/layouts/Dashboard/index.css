@@ -19,3 +19,9 @@
     padding: 20px;
     border-radius: 20px;
 }
+
+.sidebar-logout {
+    position: absolute !important;
+    bottom: 20px;
+    left: 50px;
+}

@@ -12,15 +12,15 @@ import {
     Title,
     Tooltip,
     Legend,
-    ChartOptions,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
+import { options } from '../../utils/chartUtils';
+
+import DashboardLayout from '../../layouts/Dashboard';
 
 import TableWithTitle from '../../components/TableWithTitle';
 import CreateActivity from '../../components/CreateActivity';
-
-import DashboardLayout from '../../layouts/Dashboard';
 
 import './index.css';
 
@@ -52,44 +52,6 @@ ChartJS.register(
     Legend
 );
 
-const options: ChartOptions<"line"> = {
-    responsive: false,
-    plugins: {
-        legend: {
-            display: false,
-        },
-    },
-    elements: {
-        line: {
-            tension: 0.3,
-        }
-    },
-    scales: { 
-        y: {
-            ticks: {
-                color: 'white',
-            },
-            grid: {
-                display: false,
-            },
-            border: {
-                display: false,
-            }
-        },
-        x: {
-            ticks: {
-                color: 'white',
-            },
-            grid: {
-                display: false,
-            },
-            border: {
-                display: false,
-            }
-        }
-    }
-};
-
 const labels = ['August', 'September', 'Octomber', 'November'];
 
 export const data = {
@@ -117,7 +79,7 @@ class Dashboard extends React.Component<any, any> {
             <DashboardLayout>
                 <Box sx={{ '& > :not(style)': { m: 1 } }}>
                     <div className="dashboard-title">
-                        <h1>Dashboard</h1>
+                        <h1>Welcome, N-ABLE</h1>
                         <Fab color="primary" aria-label="add">
                             <AddIcon 
                                 onClick={() => this.setState({ open: true })}

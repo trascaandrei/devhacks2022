@@ -15,6 +15,7 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 const drawerWidth = 240;
 
@@ -45,6 +46,9 @@ export default function ResponsiveDrawer(props: IDrawerProps) {
 					</ListItem>
 				))}
 			</List>
+			<Button variant="contained" color="primary" style={{margin: '10px'}} className="sidebar-logout">
+				Logout
+			</Button>
 		</div>
 	);
 								
