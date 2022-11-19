@@ -1,0 +1,15 @@
+version: "3.1"
+
+services:
+  db:
+    container_name: devhacks-mongoDB
+    image: mongo:latest
+    restart: always
+    volumes:
+      - ./devhacks:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_INITDB_DATABASE=${DB_NAME}
+    ports:
+      - 27017:27017
