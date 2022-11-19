@@ -2,6 +2,9 @@ import * as React from 'react';
 import { observer } from "mobx-react";
 import { Box, Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 import {
     Chart as ChartJS,
@@ -63,12 +66,20 @@ export const data = {
     ],
 };
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 class NgoDashboard extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
 
         this.state = {
             open: false,
+            openSnackbar: false,
         };
     }
 
@@ -78,6 +89,23 @@ class NgoDashboard extends React.Component<any, any> {
     }
 
     render() {
+        const { activities } = rootStore.activitiesStore;
+        const activitiesToDisplay = activities.map((activity: any) => ({
+            title: activity.title,
+            amount: activity.details.nrSquareMeters || activity.details.nrTrees,
+            price: activity.details.pricePerTree || activity.details.pricePerSquareMeter,
+            status: 'In progress',
+            actions: (
+                <Fab
+                    color="primary"
+                    size="small"
+                    onClick={() => this.setState({ open: true })}
+                >
+                    <VisibilityIcon />
+                </Fab>
+            )
+        }));
+        
         return (
             <>
                 <Box sx={{ '& > :not(style)': { m: 1 } }}>
@@ -93,8 +121,8 @@ class NgoDashboard extends React.Component<any, any> {
                         <div className="dashboard-activities-table">
                             <TableWithTitle 
                                 title="Your activities"
-                                tableHeaders={['Activity', 'Amount', 'Date', 'Status', 'Actions']}
-                                rows={rows}
+                                tableHeaders={['Activity', 'Amount', 'Price', 'Status', 'Actions']}
+                                rows={activitiesToDisplay}
                                 moreLink={routeNames.activities}
                             />
                         </div>
@@ -109,14 +137,24 @@ class NgoDashboard extends React.Component<any, any> {
                     <TableWithTitle 
                         title="Requests"
                         tableHeaders={['Activity', 'Amount', 'Company', 'Actions']}
-                        rows={rows}
+                        rows={activitiesToDisplay}
                         moreLink={routeNames.requests}
                     />
                 </Box>
                 <CreateActivity 
                     open={this.state.open}
-                    handleClose={() => this.setState({ open: false })}
+                    handleClose={(success = false) => {
+                        this.setState({ open: false })
+                        if (success) {
+                            this.setState({ openSnackbar: true })
+                        }
+                    }}
                 />
+                <Snackbar open={this.state.openSnackbar} autoHideDuration={6000}>
+                    <Alert severity="success" sx={{ width: '100%' }}>
+                        Activity added!
+                    </Alert>
+                </Snackbar>
             </>
         );
     }

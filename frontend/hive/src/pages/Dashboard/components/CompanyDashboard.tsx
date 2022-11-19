@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { observer } from "mobx-react";
 
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Fab } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import LinearProgress, { LinearProgressProps, linearProgressClasses } from '@mui/material/LinearProgress';
 import { styled } from '@mui/material/styles';
 
@@ -21,6 +22,7 @@ import { options } from '../../../utils/chartUtils';
 
 import TableWithTitle from '../../../components/TableWithTitle';
 import CreateActivity from '../../../components/CreateActivity';
+import ActivityModal from '../../../components/ActivityModal';
 
 import { routeNames } from '../../../utils/routes';
 import { rootStore } from '../../../stores';
@@ -57,8 +59,14 @@ export const data = {
     labels,
     datasets: [
         {
-            label: 'Your activities',
-            data: labels.map(() => faker.datatype.number({ min: 0, max: 10 })),
+            label: 'Points aquired',
+            data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+            borderColor: '#FFC000',
+            backgroundColor: '#FFC000',
+        },
+        {
+            label: 'Points remained',
+            data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
             borderColor: 'white',
             backgroundColor: 'white',
         },
@@ -91,6 +99,8 @@ class CompanyDashboard extends React.Component<any, any> {
 
         this.state = {
             open: false,
+            openActivity: false,
+            activity: null,
         };
     }
 
@@ -99,6 +109,23 @@ class CompanyDashboard extends React.Component<any, any> {
     }
 
     render() {
+        const { activities } = rootStore.activitiesStore;
+        const activitiesToDisplay = activities.map((activity: any) => ({
+            title: activity.title,
+            amount: activity.details.nrSquareMeters || activity.details.nrTrees,
+            price: activity.details.pricePerTree || activity.details.pricePerSquareMeter,
+            status: 'In progress',
+            actions: (
+                <Fab
+                    color="primary"
+                    size="small"
+                    onClick={() => this.setState({ openActivity: true, activity })}
+                >
+                    <VisibilityIcon />
+                </Fab>
+            )
+        }));
+
         return (
             <>
                 <Box sx={{ '& > :not(style)': { m: 1 } }}>
@@ -111,8 +138,8 @@ class CompanyDashboard extends React.Component<any, any> {
                         <div className="dashboard-activities-table">
                             <TableWithTitle 
                                 title="Find activities"
-                                tableHeaders={['Activity', 'Amount', 'Date', 'Status', 'Actions']}
-                                rows={rows}
+                                tableHeaders={['Activity', 'Amount', 'Price', 'Status', 'Actions']}
+                                rows={activitiesToDisplay}
                                 moreLink={routeNames.activities}
                             />
                         </div>
@@ -134,6 +161,11 @@ class CompanyDashboard extends React.Component<any, any> {
                 <CreateActivity 
                     open={this.state.open}
                     handleClose={() => this.setState({ open: false })}
+                />
+                <ActivityModal
+                    open={this.state.openActivity}
+                    handleClose={() => this.setState({ openActivity: false })}
+                    activity={this.state.activity}
                 />
             </>
         );

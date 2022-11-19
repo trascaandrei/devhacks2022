@@ -71,7 +71,10 @@ class CreateActivity extends React.Component<any, any> {
                 .filter((k) => fields.details[k] != null)
                 .reduce((a, k) => ({ ...a, [k]: parseInt(fields.details[k]) }), {})
         }
-        console.log(payload);
+        
+        rootStore.activitiesStore.createActivity(payload);
+
+        this.props.handleClose(true);
     }
 
     renderDynamicFields() {
@@ -118,7 +121,7 @@ class CreateActivity extends React.Component<any, any> {
             <div>
                 <Modal
                     open={open}
-                    onClose={handleClose}
+                    onClose={() => handleClose(false)}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
