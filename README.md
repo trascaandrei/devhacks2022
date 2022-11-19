@@ -38,7 +38,7 @@ GET /api/v1/activities/
         {
             "activityId": "9745e713-979c-47ef-aaa8-ede2f852db26",
             "name": "Plantare copaci",
-            "description": "Planatare copaci in parcuri",
+            "description": "Plantare copaci in parcuri",
             "details": [
                 "nrTrees",
                 "pricePerTree"
@@ -58,6 +58,8 @@ POST /api/v1/actions/
 ```JSON
 {
     "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
+    "title": "Plantare copaci in Tineretului",
+    "description": "Save the environment by your actions",
     "details": {
         "nrSquareMeters": 200,
         "pricePerSquareMeter": 1
@@ -93,7 +95,9 @@ GET /api/v1/actions/
                     "nrSquareMeters",
                     "pricePerSquareMeter"
                 ]
-            }
+            },
+            "title": "Plantare copaci in Tineretului",
+            "description": "Save the environment by your actions"
         },
         {
             "actionId": "88b9fc90-5af4-4e6c-ba84-06551cdeafb9",
@@ -109,7 +113,9 @@ GET /api/v1/actions/
                     "nrSquareMeters",
                     "pricePerSquareMeter"
                 ]
-            }
+            },
+            "title": "Plantare copaci in Tineretului",
+            "description": "Save the environment by your actions"
         }
     ]
 }
@@ -125,6 +131,8 @@ GET /api/v1/actions/all
     "actions": [
         {
             "actionId": "c2d64cfc-55f7-4208-9f00-b678354ce031",
+            "title": "Plantare copaci in Tineretului",
+            "description": "Save the environment by your actions",
             "details": {
                 "nrSquareMeters": 100,
                 "pricePerSquareMeter": 2
@@ -144,6 +152,8 @@ GET /api/v1/actions/all
         },
         {
             "actionId": "88b9fc90-5af4-4e6c-ba84-06551cdeafb9",
+            "title": "Plantare copaci in Tineretului",
+            "description": "Save the environment by your actions",
             "details": {
                 "nrSquareMeters": 200,
                 "pricePerSquareMeter": 1
@@ -214,6 +224,10 @@ GET /api/v1/requests/
                     "pricePerSquareMeter"
                 ]
             },
+            "action": {
+                "title": "Plantare copaci in Tineretului",
+                "description": "Save the environment by your actions"
+            },
             "company": {
                 "cui": "18189442",
                 "email": "adrianstefan376@gmail.com"
@@ -234,6 +248,10 @@ GET /api/v1/requests/
                     "nrSquareMeters",
                     "pricePerSquareMeter"
                 ]
+            },
+            "action": {
+                "title": "Plantare copaci in Tineretului",
+                "description": "Save the environment by your actions"
             },
             "company": {
                 "cui": "18189442",
@@ -274,7 +292,38 @@ GET /api/v1/histories/
 {
     "histories": [
         {
-            "historyId": "ce2fcbd6-bcfd-4fcb-b624-613baba8b806",
+            "historyId": "3c2309ff-015e-4916-a94a-f80e5349e65a",
+            "ongDetails": {
+                "nrSquareMeters": 200,
+                "pricePerSquareMeter": 1
+            },
+            "companyDetails": {
+                "nrSquareMeters": 10,
+                "pricePerSquareMeter": 2
+            },
+            "status": "rejected",
+            "action": {
+                "title": "Planatare copaci in Tineretului",
+                "description": "Save the environment by your actions"
+            },
+            "activity": {
+                "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
+                "name": "Adunare gunoaie",
+                "description": "Adunarea gunoaielor de pe saptiile verzi",
+                "details": [
+                    "nrSquareMeters",
+                    "pricePerSquareMeter"
+                ]
+            },
+            "ong": {
+                "email": "andrei.trasca@trsdesign.ro"
+            },
+            "company": {
+                "email": "andrei.trasca@trsdesign.ro"
+            }
+        },
+        {
+            "historyId": "1884d631-d071-458b-861b-4c658cde50a2",
             "ongDetails": {
                 "nrSquareMeters": 200,
                 "pricePerSquareMeter": 1
@@ -284,6 +333,10 @@ GET /api/v1/histories/
                 "pricePerSquareMeter": 2
             },
             "status": "completed",
+            "action": {
+                "title": "Planatare copaci in Tineretului",
+                "description": "Save the environment by your actions"
+            },
             "activity": {
                 "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
                 "name": "Adunare gunoaie",

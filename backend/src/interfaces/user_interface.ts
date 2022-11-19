@@ -10,7 +10,7 @@ export interface UserInterface extends Document {
     matchPassword?: (password: string) => PromiseLike<boolean>;
 };
 
-interface Entity {em
+interface Entity {
     email: string;
     cui?: string;
 };

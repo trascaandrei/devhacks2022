@@ -1,8 +1,8 @@
+import { ActionInfoInterface } from './action_interface';
 import { ActivityInterface } from './activity_interface';
 import { OngInterface } from './user_interface';
-import { Document } from 'mongoose';
 
-export interface ActionDetailsInterface {
+export interface ActionDetailsInterface extends ActionInfoInterface {
     actionId: string;
     activity: ActivityInterface;
     details: Record<string, unknown>;

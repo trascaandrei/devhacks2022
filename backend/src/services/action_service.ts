@@ -36,7 +36,9 @@ export class ActionService extends Service {
                         description: '$activities.description',
                         details: '$activities.details'
                     },
-                    details: 1
+                    details: 1,
+                    title: 1,
+                    description: 1
                 }
             }
         ]);
@@ -77,6 +79,8 @@ export class ActionService extends Service {
                         details: '$activities.details'
                     },
                     details: 1,
+                    title: 1,
+                    description: 1,
                     ong: {
                         email: '$ongs.email',
                         cui: '$ongs.cui'
