@@ -1,8 +1,8 @@
 import { Schema, model } from 'mongoose';
-import { ServiceInterface } from '../interfaces/service_interface';
+import { ActionInterface } from '../interfaces/action_interface';
 
-const ServiceSchema = new Schema({
-    serviceId: {
+const ActionSchema = new Schema({
+    actionId: {
         type: String,
         required: true,
         index: {
@@ -22,4 +22,4 @@ const ServiceSchema = new Schema({
     }
 });
 
-export const Activity = model<ServiceInterface>('Activity', ServiceSchema);
+export const Action = model<ActionInterface>('Action', ActionSchema);

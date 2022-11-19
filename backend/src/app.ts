@@ -5,8 +5,10 @@ import cors from 'cors';
 import express from 'express';
 import { DbConnection } from './db';
 import { Config } from './config/config';
-// import { HandleRequest } from './routes/handle_request';
+import { ActivityRoutes } from './routes/activity_routes';
 import { ErrorHandler } from './middlewares/error_handler';
+import { ActionRoutes } from './routes/action_routes';
+import { RequestRoutes } from './routes/request_routes';
 
 export class App {
 	private _app: Application;
@@ -40,7 +42,9 @@ export class App {
 		this._app.use(cors());
 
 		/* add routes */
-		// this._app.use('/', new HandleRequest(this._client).getRouter());
+		this._app.use('/api/v1/activities', new ActivityRoutes().getRouter());
+		this._app.use('/api/v1/actions', new ActionRoutes().getRouter());
+		this._app.use('/api/v1/requests', new RequestRoutes().getRouter());
 
 		/* add error handler */
 		this._app.use(this._errorHandler.handle.bind(this._errorHandler));

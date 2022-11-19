@@ -8,5 +8,6 @@ export class Config {
     public static MONGO_USERNAME: string = process.env.MONGO_USERNAME || '';
     public static MONGO_PASSWORD: string = process.env.MONGO_PASSWORD || '';
     public static ROUNDS: number = Number(process.env.ROUNDS) || 10;
-    
+    public static SECRET_KEY: string = process.env.SECRET_KEY;
+    public static EXPIRES_IN: number = Number(process.env.EXPIRES_IN);
 };

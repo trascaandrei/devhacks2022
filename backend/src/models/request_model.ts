@@ -10,7 +10,7 @@ const ServiceSchema = new Schema({
             unique: true
         }
     },
-    serviceId: {
+    actionId: {
         type: String,
         required: true
     },
@@ -27,4 +27,4 @@ const ServiceSchema = new Schema({
     }
 });
 
-export const Activity = model<RequestInterface>('Activity', ServiceSchema);
+export const RequestModel = model<RequestInterface>('RequestModel', ServiceSchema);

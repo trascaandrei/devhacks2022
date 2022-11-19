@@ -4,12 +4,16 @@ export class Constants {
         BAD_REQUEST: 400,
         NOT_FOUND: 404,
         SERVER_ERROR: 500,
-        OK: 200
+        OK: 200,
+        CREATED: 201
     };
 
     public static ERR_MESSAGES = {
         SERVER_ERROR: 'server error',
         INVALID_DATA: 'invalid data',
-        USER_NOT_FOUND: 'user not found'
+        USER_NOT_FOUND: 'user not found',
+        NOT_FOUND: 'not found',
+        ACTION_CREATED: 'action created successfully',
+        REQUEST_CREATED: 'request created successfully'
     };
 };

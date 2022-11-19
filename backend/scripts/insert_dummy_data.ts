@@ -147,20 +147,20 @@ class Runner {
             activityId: v4(),
             name: 'Plantare copaci',
             description: 'Planatare copaci in parcuri',
-            details: {
-                nrTrees: 100,
-                pricePerTree: 1
-            }
+            details: [
+                'nrTrees',
+                'pricePerTree'
+            ]
         };
 
         const activity2: Record<string, unknown> = {
             activityId: v4(),
             name: 'Adunare gunoaie',
-            description: 'Adunarea gunoaielor de pe saptiile verzi',
-            details: {
-                nrSquareMeters: 100,
-                pricePerSquareMeter: 2
-            }
+            description: 'Adunarea gunoaielor de pe spatiile verzi',
+            details: [
+                'nrSquareMeters',
+                'pricePerSquareMeter'
+            ]
         };
 
         const promises: Promise<ActivityInterface>[] = [];
