@@ -1,0 +1,9 @@
+.table-with-title {
+    margin-top: 30px !important;
+}
+
+.table-with-title-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
