@@ -13,9 +13,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 const drawerWidth = 240;
 
@@ -32,7 +34,13 @@ export default function ResponsiveDrawer(props: IDrawerProps) {
 	
 	const drawer = (
 		<div>
-			<Toolbar />
+			<div className="sidebar-account">
+				<AccountBoxIcon />
+				<div className="sidebar-account-info">
+					<p className="sidebar-account-title">N-Able</p>
+					<p className="sidebar-account-email">info@nable.com</p>
+				</div>
+			</div>
 			<Divider />
 			<List>
 				{props.menu.map((item, index) => (
@@ -46,9 +54,17 @@ export default function ResponsiveDrawer(props: IDrawerProps) {
 					</ListItem>
 				))}
 			</List>
-			<Button variant="contained" color="primary" style={{margin: '10px'}} className="sidebar-logout">
+			{/* <Button variant="contained" color="primary" style={{margin: '10px'}} className="sidebar-logout">
 				Logout
-			</Button>
+			</Button> */}
+			<ListItem disablePadding component={Link} to="/" className="sidebar-logout">
+				<ListItemButton>
+					<ListItemIcon>
+						<ExitToAppIcon />
+					</ListItemIcon>
+					<ListItemText primary="Logout" style={{color: 'black'}}/>
+				</ListItemButton>
+			</ListItem>
 		</div>
 	);
 								
@@ -62,7 +78,7 @@ export default function ResponsiveDrawer(props: IDrawerProps) {
 					ml: { sm: `${drawerWidth}px` },
 				}}
 			>
-				<Toolbar>
+				<Toolbar className="sidebar-toolbar">
 					<IconButton
 						color="inherit"
 						aria-label="open drawer"
@@ -70,11 +86,12 @@ export default function ResponsiveDrawer(props: IDrawerProps) {
 						onClick={handleDrawerToggle}
 						sx={{ mr: 2, display: { sm: 'none' } }}
 					>
-					<MenuIcon />
+						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" noWrap component="div">
 						Hive Dashboard
 					</Typography>
+					<NotificationsIcon />
 				</Toolbar>
 			</AppBar>
 			<Box

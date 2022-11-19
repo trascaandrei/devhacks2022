@@ -3,8 +3,8 @@ import * as React from 'react';
 import ResponsiveDrawer from './components/sidebar';
 
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import LocalActivityIcon from '@mui/icons-material/LocalActivity';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
+import WorkIcon from '@mui/icons-material/Work';
 
 import { routeNames } from '../../utils/routes';
 
@@ -23,12 +23,12 @@ class DashboardLayout extends React.Component<any, any> {
         }, 
         {
             text: 'Requests',
-            icon: <NotificationsActiveIcon />,
+            icon: <EqualizerIcon />,
             link: routeNames.requests,
         },
         {
             text: 'Activities',
-            icon: <LocalActivityIcon />,
+            icon: <WorkIcon />,
             link: routeNames.activities,
         },
     ];
