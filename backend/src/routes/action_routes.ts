@@ -14,6 +14,7 @@ export class ActionRoutes extends Routes {
         const actionController: ActionController = new ActionController();
         const addActionByOngFunc: RequestHandler = actionController.addActionByOng.bind(actionController);
         const getActionsByOngFunc: RequestHandler = actionController.getActionsByOng.bind(actionController);
+        const getAllActionsFunc: RequestHandler = actionController.getAllActions.bind(actionController);
         
         /* validate auth token */
         const authMiddleware: AuthMiddleware = new AuthMiddleware();
@@ -26,5 +27,9 @@ export class ActionRoutes extends Routes {
         this._router.get('/', [
             checkAuthTokenFunc
         ], getActionsByOngFunc);
+
+        this._router.get('/all', [
+            checkAuthTokenFunc
+        ], getAllActionsFunc);
     }
 };

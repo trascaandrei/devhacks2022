@@ -9,6 +9,7 @@ import { ActivityRoutes } from './routes/activity_routes';
 import { ErrorHandler } from './middlewares/error_handler';
 import { ActionRoutes } from './routes/action_routes';
 import { RequestRoutes } from './routes/request_routes';
+import { HistoryRoutes } from './routes/history_routes';
 
 export class App {
 	private _app: Application;
@@ -39,12 +40,13 @@ export class App {
 		this._app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 		/* enables cors */
-		this._app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+		this._app.use(cors({ credentials: true, origin: Config.ORIGIN }));
 
 		/* add routes */
 		this._app.use('/api/v1/activities', new ActivityRoutes().getRouter());
 		this._app.use('/api/v1/actions', new ActionRoutes().getRouter());
 		this._app.use('/api/v1/requests', new RequestRoutes().getRouter());
+		this._app.use('/api/v1/histories', new HistoryRoutes().getRouter());
 
 		/* add error handler */
 		this._app.use(this._errorHandler.handle.bind(this._errorHandler));

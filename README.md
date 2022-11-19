@@ -88,8 +88,11 @@ GET /api/v1/actions/
             "activity": {
                 "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
                 "name": "Adunare gunoaie",
-                "description": "Adunarea gunoaielor de pe spatiile verzi",
-                "details": "Adunarea gunoaielor de pe saptiile verzi"
+                "description": "Adunarea gunoaielor de pe saptiile verzi",
+                "details": [
+                    "nrSquareMeters",
+                    "pricePerSquareMeter"
+                ]
             }
         },
         {
@@ -102,16 +105,19 @@ GET /api/v1/actions/
                 "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
                 "name": "Adunare gunoaie",
                 "description": "Adunarea gunoaielor de pe saptiile verzi",
-                "details": "Adunarea gunoaielor de pe saptiile verzi"
+                "details": [
+                    "nrSquareMeters",
+                    "pricePerSquareMeter"
+                ]
             }
         }
     ]
 }
 ```
 
-3. get list of created actions TODO: change it later; it will be a request made by a company to get all available actions
+3. get list of all created actions
 ```bash
-GET /api/v1/actions/
+GET /api/v1/actions/all
 ```
 
 ```JSON
@@ -126,8 +132,14 @@ GET /api/v1/actions/
             "activity": {
                 "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
                 "name": "Adunare gunoaie",
-                "description": "Adunarea gunoaielor de pe spatiile verzi",
-                "details": "Adunarea gunoaielor de pe saptiile verzi"
+                "description": "Adunarea gunoaielor de pe saptiile verzi",
+                "details": [
+                    "nrSquareMeters",
+                    "pricePerSquareMeter"
+                ]
+            },
+            "ong": {
+                "email": "andrei.trasca@trsdesign.ro"
             }
         },
         {
@@ -140,7 +152,13 @@ GET /api/v1/actions/
                 "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
                 "name": "Adunare gunoaie",
                 "description": "Adunarea gunoaielor de pe saptiile verzi",
-                "details": "Adunarea gunoaielor de pe saptiile verzi"
+                "details": [
+                    "nrSquareMeters",
+                    "pricePerSquareMeter"
+                ]
+            },
+            "ong": {
+                "email": "andrei.trasca@trsdesign.ro"
             }
         }
     ]
@@ -196,7 +214,10 @@ GET /api/v1/requests/
                     "pricePerSquareMeter"
                 ]
             },
-            "company": {}
+            "company": {
+                "cui": "18189442",
+                "email": "adrianstefan376@gmail.com"
+            }
         },
         {
             "requestId": "fb46c4dd-a4bb-4c87-b774-29c0311f559e",
@@ -214,7 +235,70 @@ GET /api/v1/requests/
                     "pricePerSquareMeter"
                 ]
             },
-            "company": {}
+            "company": {
+                "cui": "18189442",
+                "email": "contact@trsdesign.ro"
+            }
+        }
+    ]
+}
+```
+
+3. update request status by logged ONG
+
+```bash
+PUT /api/v1/requests/:requestId
+```
+
+```JSON
+{
+    "status": "accepted"
+}
+```
+
+```JSON
+{
+    "message": "request updated successfully"
+}
+```
+
+## History API
+
+1. get list of histories for a logged company
+
+```bash
+GET /api/v1/histories/
+```
+
+```JSON
+{
+    "histories": [
+        {
+            "historyId": "ce2fcbd6-bcfd-4fcb-b624-613baba8b806",
+            "ongDetails": {
+                "nrSquareMeters": 200,
+                "pricePerSquareMeter": 1
+            },
+            "companyDetails": {
+                "nrSquareMeters": 10,
+                "pricePerSquareMeter": 2
+            },
+            "status": "completed",
+            "activity": {
+                "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
+                "name": "Adunare gunoaie",
+                "description": "Adunarea gunoaielor de pe saptiile verzi",
+                "details": [
+                    "nrSquareMeters",
+                    "pricePerSquareMeter"
+                ]
+            },
+            "ong": {
+                "email": "andrei.trasca@trsdesign.ro"
+            },
+            "company": {
+                "email": "andrei.trasca@trsdesign.ro"
+            }
         }
     ]
 }

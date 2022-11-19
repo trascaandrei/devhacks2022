@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { HistoryInterface } from '../interfaces/history_interface';
+import { RequestStatus } from '../utils/request_status';
 
 const HistorySchema = new Schema({
     historyId: {
@@ -26,6 +27,11 @@ const HistorySchema = new Schema({
     },
     companyDetails: {
         type: Map
+    },
+    status: {
+        type: String,
+        required: true,
+        enum: [RequestStatus.ACCEPTED, RequestStatus.COMPLETED]
     }
 });
 

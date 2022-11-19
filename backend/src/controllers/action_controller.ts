@@ -28,4 +28,10 @@ export class ActionController extends Controller {
             actions: await this._actionService.findActions({ ongId: req.userId })
         });
     }
+
+    public async getAllActions(req: Request, res: Response, next: NextFunction): Promise<void> {
+        res.status(Constants.STATUS_CODE.OK).json({
+            actions: await this._actionService.findAllActions()
+        })
+    }
 };

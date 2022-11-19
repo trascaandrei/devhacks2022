@@ -10,4 +10,6 @@ export class Config {
     public static ROUNDS: number = Number(process.env.ROUNDS) || 10;
     public static SECRET_KEY: string = process.env.SECRET_KEY;
     public static EXPIRES_IN: number = Number(process.env.EXPIRES_IN);
+    public static ORIGIN: string = process.env.ORIGIN || '*';
+
 };

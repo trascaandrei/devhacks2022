@@ -9,3 +9,14 @@ export interface UserInterface extends Document {
     cui?: String;
     matchPassword?: (password: string) => PromiseLike<boolean>;
 };
+
+interface Entity {em
+    email: string;
+    cui?: string;
+};
+
+export interface OngInterface extends Entity {
+};
+
+export interface CompanyInterface extends Entity {
+};

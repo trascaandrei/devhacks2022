@@ -14,6 +14,7 @@ export class RequestRoutes extends Routes {
         const requestController: RequestController = new RequestController();
         const addRequestByCompanyFunc: RequestHandler = requestController.addRequestByCompany.bind(requestController);
         const getRequestsForOngFunc: RequestHandler = requestController.getRequestsForOng.bind(requestController);
+        const updateRequestStatusByOngFunc: RequestHandler = requestController.updateRequestStatusByOng.bind(requestController);
         
         /* validate auth token */
         const authMiddleware: AuthMiddleware = new AuthMiddleware();
@@ -26,5 +27,9 @@ export class RequestRoutes extends Routes {
         this._router.get('/', [
             checkAuthTokenFunc
         ], getRequestsForOngFunc);
+
+        this._router.put('/:requestId', [
+            checkAuthTokenFunc
+        ], updateRequestStatusByOngFunc);
     }
 };
