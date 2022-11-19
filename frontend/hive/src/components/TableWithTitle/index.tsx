@@ -30,7 +30,7 @@ class TableWithTitle extends React.Component<any, any> {
                         <TableHead>
                         <TableRow>
                             {this.props.tableHeaders.map((header: string) => (
-                                <TableCell align="left">{header}</TableCell>
+                                <TableCell align="left" key={header}>{header}</TableCell>
                             ))}
                         </TableRow>
                         </TableHead>
@@ -40,8 +40,8 @@ class TableWithTitle extends React.Component<any, any> {
                                     key={row.name}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    {Object.keys(row).map((rowField: string) => (
-                                        <TableCell component="th" scope="row">
+                                    {Object.keys(row).map((rowField: string, index: number) => (
+                                        <TableCell component="th" scope="row" key={`key-${rowField}-${index}`}>
                                             {(row as any)[rowField]}
                                         </TableCell>
                                     ))}

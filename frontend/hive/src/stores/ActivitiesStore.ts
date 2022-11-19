@@ -11,7 +11,23 @@ export interface IActivityType {
     }[];
 }
 
-export class MainStore {
+export interface IActivity {
+    actionId: string;
+    details: {
+        nrSquareMeters?: number,
+        pricePerSquareMeter?: number,
+        nrTrees?: number,
+        pricePerTree?: number,
+    };
+    activity: {
+        activityId: string,
+        name: string,
+        description: string,
+        details: string,
+    };
+}
+
+export class ActivitiesStore {
     constructor() {
         makeObservable(this, {
             activityTypes: observable,
@@ -20,6 +36,46 @@ export class MainStore {
         });
     }
 
+    // ACTIVITIES
+    public activities: IActivity[] = [];
+
+    public setActivities = (activities: IActivity[]) => {
+        this.activities = activities;
+    }
+
+    public fetchActivities = async () => {
+        const response = await 
+            fetch(`${API_CONSTS.BASE_URL}/actions`, {
+                headers: {
+                    Authorization: API_CONSTS.BEARER,
+                },
+            })
+            .then((res) => res.json())
+            .catch((err) => {
+                console.log(err);
+            });
+
+        console.log(response);
+    }
+
+    public createActivity = async (activity: any) => {
+        await fetch(`${API_CONSTS.BASE_URL}/actions`, {
+            method: 'POST',
+            headers: {
+                Authorization: API_CONSTS.BEARER,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(activity),
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
+        this.fetchActivities();
+    }
+
+
+    // ACTIVITY TYPES
     public activityTypes: IActivityType[] = [];
 
     public setActivityTpes = (activityTypes: IActivityType[]) => {
@@ -57,6 +113,5 @@ export class MainStore {
             }
         }
     }
-
 }
 
