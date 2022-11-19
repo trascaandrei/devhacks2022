@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import { observer } from "mobx-react";
 import { Box, Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -25,6 +25,7 @@ import CreateActivity from '../../components/CreateActivity';
 import './index.css';
 
 import { routeNames } from '../../utils/routes';
+import { rootStore } from '../../stores';
 
 function createData(
     name: string,
@@ -69,9 +70,15 @@ export const data = {
 class Dashboard extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
+
         this.state = {
             open: false,
         };
+    }
+
+    componentDidMount(): void {
+        rootStore.activitiesStore.fetchActivities();
+        rootStore.activitiesStore.fetchActivityTypes();
     }
 
     render() {
@@ -119,4 +126,4 @@ class Dashboard extends React.Component<any, any> {
     }
 }
 
-export default Dashboard;
+export default observer(Dashboard);

@@ -1,5 +1,5 @@
-import { MainStore } from "./MainStore";
+import { ActivitiesStore } from "./ActivitiesStore";
 
 export const rootStore = {
-    mainStore: new MainStore(),
+    activitiesStore: new ActivitiesStore(),
 }
