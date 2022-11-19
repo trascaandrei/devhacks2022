@@ -39,7 +39,7 @@ export class App {
 		this._app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 		/* enables cors */
-		this._app.use(cors());
+		this._app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 
 		/* add routes */
 		this._app.use('/api/v1/activities', new ActivityRoutes().getRouter());
