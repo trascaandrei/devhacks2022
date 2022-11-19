@@ -19,9 +19,9 @@ class App extends React.Component<any, any> {
 					<Routes>
 						{routes.map((route: any, index: number) => (
 							<Route
-							path={route.path}
-							key={`route-key-${index}`}
-							element={<route.component />}
+								path={route.path}
+								key={`route-key-${index}`}
+								element={<route.component />}
 							/>
 						))}
 					</Routes>

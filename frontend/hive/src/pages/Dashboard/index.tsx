@@ -1,6 +1,8 @@
 import * as React from 'react';
 
-import { routeNames } from '../../utils/routes';
+import DashboardLayout from '../../layouts/Dashboard';
+
+// import { routeNames } from '../../utils/routes';
 
 class Dashboard extends React.Component<any, any> {
     constructor(props: any) {
@@ -10,9 +12,9 @@ class Dashboard extends React.Component<any, any> {
 
     render() {
         return (
-            <div className="Dashboard">
+            <DashboardLayout>
                 <h1>Dashboard</h1>
-            </div>
+            </DashboardLayout>
         );
     }
 }
