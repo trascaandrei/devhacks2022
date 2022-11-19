@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { RequestInterface } from '../interfaces/request_interface';
+import { RequestStatus } from '../utils/request_status';
 
 const ServiceSchema = new Schema({
     requestId: {
@@ -16,6 +17,10 @@ const ServiceSchema = new Schema({
     companyId: {
         type: String,
         required: true
+    },
+    status: {
+        type: String,
+        default: RequestStatus.PENDING
     },
     details: {
         type: Map
