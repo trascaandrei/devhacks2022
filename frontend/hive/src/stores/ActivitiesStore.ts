@@ -30,6 +30,10 @@ export interface IActivity {
 export class ActivitiesStore {
     constructor() {
         makeObservable(this, {
+            activities: observable,
+            setActivities: action,
+            fetchActivities: action,
+
             activityTypes: observable,
             setActivityTpes: action,
             fetchActivityTypes: action,

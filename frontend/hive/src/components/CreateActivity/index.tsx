@@ -80,6 +80,8 @@ class CreateActivity extends React.Component<any, any> {
             (activityType: any) => activityType.name === this.state.activityType
         );
 
+        console.log(currentActivityType, activityTypes);
+
         return (
             <>
                 {currentActivityType?.details.map((detail: any) => {
