@@ -27,22 +27,6 @@ import ActivityModal from '../../../components/ActivityModal';
 import { routeNames } from '../../../utils/routes';
 import { rootStore } from '../../../stores';
 
-function createData(
-    name: string,
-    calories: number,
-    fat: number,
-    carbs: number,
-    protein: number,
-  ) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-  ];
-
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -106,10 +90,11 @@ class CompanyDashboard extends React.Component<any, any> {
 
     componentDidMount(): void {
         rootStore.activitiesStore.fetchActivities();
+        rootStore.activitiesStore.fetchHistory();
     }
 
     render() {
-        const { activities } = rootStore.activitiesStore;
+        const { activities, history } = rootStore.activitiesStore;
         const user = rootStore.userStore.getUserData();
 
         const activitiesToDisplay = activities?.map((activity: any) => ({
@@ -126,6 +111,11 @@ class CompanyDashboard extends React.Component<any, any> {
                     <VisibilityIcon />
                 </Fab>
             )
+        }));
+        const historyToDisplay = history?.map((activity: any) => ({
+            title: activity.action.title,
+            amount: activity.companyDetails.nrSquareMeters || activity.companyDetails.nrTrees,
+            name: activity.ong.name,
         }));
 
         return (
@@ -155,8 +145,8 @@ class CompanyDashboard extends React.Component<any, any> {
                     
                     <TableWithTitle 
                         title="History"
-                        tableHeaders={['Activity', 'Amount', 'Company', 'Actions']}
-                        rows={rows}
+                        tableHeaders={['Activity', 'Amount', 'NGO']}
+                        rows={historyToDisplay}
                         moreLink={routeNames.requests}
                     />
                 </Box>
