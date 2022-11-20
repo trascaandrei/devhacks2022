@@ -25,22 +25,7 @@ import CreateActivity from '../../../components/CreateActivity';
 
 import { routeNames } from '../../../utils/routes';
 import { rootStore } from '../../../stores';
-
-function createData(
-    name: string,
-    calories: number,
-    fat: number,
-    carbs: number,
-    protein: number,
-  ) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-  ];
+import ActivityModal from '../../../components/ActivityModal';
 
 ChartJS.register(
     CategoryScale,
@@ -80,16 +65,19 @@ class NgoDashboard extends React.Component<any, any> {
         this.state = {
             open: false,
             openSnackbar: false,
+            openActivity: false,
+            activity: null,
         };
     }
 
     componentDidMount(): void {
         rootStore.activitiesStore.fetchActivities();
         rootStore.activitiesStore.fetchActivityTypes();
+        rootStore.activitiesStore.fetchRequests();
     }
 
     render() {
-        const { activities } = rootStore.activitiesStore;
+        const { activities, requests } = rootStore.activitiesStore;
         const activitiesToDisplay = activities.map((activity: any) => ({
             title: activity.title,
             amount: activity.details.nrSquareMeters || activity.details.nrTrees,
@@ -100,6 +88,20 @@ class NgoDashboard extends React.Component<any, any> {
                     color="primary"
                     size="small"
                     onClick={() => this.setState({ open: true })}
+                >
+                    <VisibilityIcon />
+                </Fab>
+            )
+        }));
+        const requestsToDisplay = requests.map((request: any) => ({
+            title: request.action.title,
+            amount: request.details.nrSquareMeters || request.details.nrTrees,
+            company: request.company.name,
+            actions: (
+                <Fab
+                    color="primary"
+                    size="small"
+                    onClick={() => this.setState({ openActivity: true, activity: request })}
                 >
                     <VisibilityIcon />
                 </Fab>
@@ -137,7 +139,7 @@ class NgoDashboard extends React.Component<any, any> {
                     <TableWithTitle 
                         title="Requests"
                         tableHeaders={['Activity', 'Amount', 'Company', 'Actions']}
-                        rows={activitiesToDisplay}
+                        rows={requestsToDisplay}
                         moreLink={routeNames.requests}
                     />
                 </Box>
@@ -149,6 +151,12 @@ class NgoDashboard extends React.Component<any, any> {
                             this.setState({ openSnackbar: true })
                         }
                     }}
+                />
+                <ActivityModal
+                    open={this.state.openActivity}
+                    handleClose={() => this.setState({ openActivity: false })}
+                    activity={this.state.activity}
+                    isRequest
                 />
                 <Snackbar open={this.state.openSnackbar} autoHideDuration={6000}>
                     <Alert severity="success" sx={{ width: '100%' }}>

@@ -30,6 +30,37 @@ export interface IActivity {
     };
 }
 
+export interface IHistory {
+    status: string;
+    action: {
+        title: string;
+        description: string;
+    };
+    companyDetails: {
+        nrSquareMeters?: number,
+        pricePerSquareMeter?: number,
+        nrTrees?: number,
+        pricePerTree?: number,
+    }
+}
+
+export interface IRequest {
+    requestId: string;
+    company: {
+        name: string;
+    };
+    details: {
+        nrSquareMeters?: number,
+        pricePerSquareMeter?: number,
+        nrTrees?: number,
+        pricePerTree?: number,
+    };
+    action: {
+        title: string;
+        description: string;
+    };
+}
+
 export class ActivitiesStore {
     constructor() {
         makeObservable(this, {
@@ -41,6 +72,10 @@ export class ActivitiesStore {
             setActivityTpes: action,
             fetchActivityTypes: action,
             createRequest: action,
+
+            requests: observable,
+            setRequests: action,
+            fetchRequests: action,
         });
     }
 
@@ -54,7 +89,7 @@ export class ActivitiesStore {
     public fetchActivities = async () => {
         const token = JSON.parse(window.localStorage.getItem('userData') || '{}').accessToken;
         const response = await 
-            fetch(`${API_CONSTS.BASE_URL}/actions`, {
+            fetch(`${API_CONSTS.BASE_URL}/actions/all`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -137,6 +172,46 @@ export class ActivitiesStore {
                 }) as IActivityType[]);
             }
         }
+    }
+
+    // REQUESTS
+    public requests: IRequest[] = [];
+
+    public setRequests = (requests: IRequest[]) => {
+        this.requests = requests;
+    }
+
+    public fetchRequests = async () => {
+        const token = JSON.parse(window.localStorage.getItem('userData') || '{}').accessToken;
+        const response = await 
+            fetch(`${API_CONSTS.BASE_URL}/requests`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((res) => res.json())
+            .catch((err) => {
+                console.log(err);
+            });
+        this.setRequests(response.requests.filter((request: any) => request.status === 'pending'));
+    }
+
+    public approveRequest = async (requestId: string) => {
+        const token = JSON.parse(window.localStorage.getItem('userData') || '{}').accessToken;
+        await fetch(`${API_CONSTS.BASE_URL}/requests/${requestId}`, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status: 'accepted',
+            }),
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+        this.fetchRequests();
     }
 }
 
