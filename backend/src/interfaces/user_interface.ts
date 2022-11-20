@@ -10,6 +10,7 @@ export interface UserInterface extends Document {
     cui?: string;
     targetCredit?: number;
     currentCredit?: number;
+    logoUrl?: string;
     matchPassword?: (password: string) => PromiseLike<boolean>;
 };
 
@@ -23,4 +24,5 @@ export interface OngInterface extends Entity {
 };
 
 export interface CompanyInterface extends Entity {
+    logoUrl: string;
 };

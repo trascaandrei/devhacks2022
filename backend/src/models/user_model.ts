@@ -49,6 +49,9 @@ const UserSchema = new Schema({
     },
     currentCredit: {
         type: Number
+    },
+    logoUrl: {
+        type: String
     }
 });
 

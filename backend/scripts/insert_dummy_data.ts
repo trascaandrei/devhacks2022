@@ -12,6 +12,20 @@ import { UserService } from '../src/services/user_service';
 import { ActivityInterface } from '../src/interfaces/activity_interface';
 import { UserInterface } from '../src/interfaces/user_interface';
 import { UserType } from '../src/utils/user_type';
+import fs from 'fs';
+import path from 'path';
+import { parse } from 'csv-parse';
+
+type EntryInfo = {
+    userId: string;
+    name: string;
+    username: string;
+    password: string;
+    email: string;
+    cui?: string;
+    logoUrl?: string;
+    type: string;
+};
 
 class Connection extends DbConnection {
     public async disconnect() {
@@ -24,19 +38,20 @@ class Runner {
      * list of available options
      */
     private static availableOptions: string[] = [
-        '--help'
+        '--help',
+        '--file'
     ];
 
     /**
      * for each option contains the description
      */
     private static optionsDescription = [
-        {'option': '--help', 'description': 'display insights on how to run the script'}
+        {'option': '--help', 'description': 'display insights on how to run the script'},
+        {'option': '--file', 'description': 'file name to read data from'}
     ];
 
     private _userService: UserService;
     private _activityService: ActivityService;
-
 
     constructor () {
         this._userService = new UserService();
@@ -48,7 +63,7 @@ class Runner {
      */
     private static _displayHelpMessage(): void {
        /* TODO: add colors to output; It will look nicer :))) */
-       let argsStructure: string = '[--help]\n';
+       let argsStructure: string = '[--help] | --file <file>\n';
    
        Runner.optionsDescription.forEach((option) => {
            argsStructure += `\t${option.option} -> ${option.description}\n`;
@@ -106,7 +121,8 @@ class Runner {
             email: 'adrianstefan376@gmail.com',
             type: UserType.COMPANY,
             cui: '13547272',
-            name: "Compnay1"
+            name: 'Compnay1',
+            logoUrl: 'http://my-company.com/logo.jpg'
         };
 
         const company2: Record<string, unknown> = {
@@ -116,7 +132,8 @@ class Runner {
             email: 'stefan.adrian1997@yahoo.com',
             type: UserType.COMPANY,
             cui: '18189442',
-            name: "Compnay2"
+            name: 'Compnay2',
+            logoUrl: 'http://my-company.com/logo.jpg'
         };
 
         const ong1: Record<string, unknown> = {
@@ -125,7 +142,7 @@ class Runner {
             password: 'password',
             email: 'contact@trsdesign.ro',
             type: UserType.ONG,
-            name: "ONG1"
+            name: 'ONG1'
         };
 
         const ong2: Record<string, unknown> = {
@@ -134,7 +151,7 @@ class Runner {
             password: 'password',
             email: 'andrei.trasca@trsdesign.ro',
             type: UserType.ONG,
-            name: "ONG2"
+            name: 'ONG2'
         };
 
         const promises: Promise<UserInterface>[] = [];
@@ -174,11 +191,51 @@ class Runner {
         await Promise.all(promises);
     }
 
-    private async _run(): Promise<void> {
+    private async _readFromFile(file: string): Promise<EntryInfo[]> {
+        return new Promise((resolve, reject) => {
+            const csvFilePath = path.resolve(__dirname, file);
+  
+            const headers = [
+                'name',
+                'username',
+                'password',
+                'email',
+                'cui',
+                'logoUrl',
+                'type'
+            ];
+  
+            const fileContent = fs.readFileSync(csvFilePath, { encoding: 'utf-8' });
+            parse(fileContent, {
+                    delimiter: ';',
+                    columns: headers
+                }, (error, result: EntryInfo[]) => {
+                    if (error) {
+                        return reject(error);
+                    }
+
+                    resolve(result);
+            });
+        });
+    }
+
+    private async _insertFromFile(file: string): Promise<void> {
+        const content: EntryInfo[] = await this._readFromFile(file);
+
+        await Promise.all(content.filter((entry) => { return entry.type === UserType.COMPANY; }).map((entry) => {
+            return this._userService.add({ ...entry, userId: v4() });
+        }));
+    }
+
+    private async _run(file: string): Promise<void> {
         console.log('Insert data started. Please be patient :)...');
 
-        await this._insertDummyUsers();
-        await this._insertDummyActivities();
+        if (file) {
+            await this._insertFromFile(file);
+        } else {
+            await this._insertDummyUsers();
+            await this._insertDummyActivities();
+        }
     };
 
     public async start(args: string[]): Promise<void> {
@@ -209,7 +266,7 @@ class Runner {
             await connection.initConnection();
 
             /* process data */
-            await this._run();
+            await this._run(opts_map['file']);
             
             /* close db connection */
             await connection.disconnect();

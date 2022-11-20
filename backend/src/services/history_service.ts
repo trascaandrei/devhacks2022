@@ -66,7 +66,8 @@ export class HistoryService extends Service {
                     company: {
                         cui: "$companies.cui",
                         email: "$companies.email",
-                        name: "$companies.name"
+                        name: "$companies.name",
+                        logoUrl: "$companies.logoUrl"
                     },
                     ongDetails: 1,
                     companyDetails: 1,

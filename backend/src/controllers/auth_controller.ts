@@ -46,7 +46,9 @@ export class AuthController extends Controller {
         res.status(Constants.STATUS_CODE.CREATED).json({
             accessToken: await this._jwtHandler.sign(payload, Config.SECRET_KEY, Config.EXPIRES_IN),
             currentCredit: req.body.type === UserType.COMPANY ? 0 : undefined,
-            targetCredit: req.body.type === UserType.COMPANY ? user.targetCredit : undefined
+            targetCredit: req.body.type === UserType.COMPANY ? user.targetCredit : undefined,
+            type: req.body.type,
+            name: req.body.name
         });
     }
 
@@ -67,7 +69,9 @@ export class AuthController extends Controller {
         res.status(Constants.STATUS_CODE.OK).json({
             accessToken: await this._jwtHandler.sign(payload, Config.SECRET_KEY, Config.EXPIRES_IN),
             currentCredit: user.type === UserType.COMPANY ? user.currentCredit : undefined,
-            targetCredit: user.type === UserType.COMPANY ? user.targetCredit : undefined
+            targetCredit: user.type === UserType.COMPANY ? user.targetCredit : undefined,
+            type: user.type,
+            name: user.name
         });
     }
 };

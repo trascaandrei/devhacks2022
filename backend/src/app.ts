@@ -11,6 +11,7 @@ import { ActionRoutes } from './routes/action_routes';
 import { RequestRoutes } from './routes/request_routes';
 import { HistoryRoutes } from './routes/history_routes';
 import { AuthRoutes } from './routes/auth_routes';
+import { StatisticRoutes } from './routes/statistic_routes';
 import { ApiCaller } from './core/ApiCaller';
 
 export class App {
@@ -55,6 +56,7 @@ export class App {
 		this._app.use('/api/v1/actions', new ActionRoutes().getRouter());
 		this._app.use('/api/v1/requests', new RequestRoutes().getRouter());
 		this._app.use('/api/v1/histories', new HistoryRoutes().getRouter());
+		this._app.use('/api/v1/statistics', new StatisticRoutes().getRouter());
 
 		/* add error handler */
 		this._app.use(this._errorHandler.handle.bind(this._errorHandler));
