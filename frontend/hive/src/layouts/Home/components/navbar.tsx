@@ -14,7 +14,7 @@ const pages = ['RANKINGS', 'ABOUT US', 'ONGOING ACTIVITIES', 'FULFILLED ACTIVITI
 
 function Navbar() {
     return (
-        <AppBar position="static" color="transparent" elevation={0}>
+        <AppBar position="static" color="transparent" elevation={0} style={{marginTop: 30}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <img
