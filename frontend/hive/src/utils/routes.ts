@@ -1,5 +1,7 @@
 import Home from '../pages/Home';
 import Dashboard from '../pages/Dashboard';
+import Login from '../pages/Login';
+import Signup from '../pages/Signup';
 
 export const routeNames = {
     home: '/',
@@ -21,6 +23,16 @@ const routes: Array<any> = [
         component: Dashboard,
         authenticatedRoute: true,
     },
+    {
+        path: routeNames.login,
+        component: Login,
+        authenticatedRoute: false,
+    },
+    {
+        path: routeNames.register,
+        component: Signup,
+        authenticatedRoute: false,
+    }
 ];
 
 const mappedRoutes = routes.map((route) => {

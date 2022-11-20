@@ -60,13 +60,13 @@ export const data = {
     datasets: [
         {
             label: 'Points aquired',
-            data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+            data: labels?.map(() => faker.datatype.number({ min: 0, max: 1000 })),
             borderColor: '#FFC000',
             backgroundColor: '#FFC000',
         },
         {
             label: 'Points remained',
-            data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+            data: labels?.map(() => faker.datatype.number({ min: 0, max: 1000 })),
             borderColor: 'white',
             backgroundColor: 'white',
         },
@@ -110,7 +110,9 @@ class CompanyDashboard extends React.Component<any, any> {
 
     render() {
         const { activities } = rootStore.activitiesStore;
-        const activitiesToDisplay = activities.map((activity: any) => ({
+        const user = rootStore.userStore.getUserData();
+
+        const activitiesToDisplay = activities?.map((activity: any) => ({
             title: activity.title,
             amount: activity.details.nrSquareMeters || activity.details.nrTrees,
             price: activity.details.pricePerTree || activity.details.pricePerSquareMeter,
@@ -129,10 +131,10 @@ class CompanyDashboard extends React.Component<any, any> {
         return (
             <>
                 <Box sx={{ '& > :not(style)': { m: 1 } }}>
-                    <h1>Welcome, N-ABLE. You're almost there.</h1>
-                    <h3>You've given back 450/700 points</h3>
+                    <h1>Welcome, {user.name}. You're almost there.</h1>
+                    <h3>You've given back {user.currentCredit}/{user.targetCredit} points</h3>
                     <Box sx={{ width: '100%' }}>
-                        <BorderLinearProgress value={60} />
+                        <BorderLinearProgress value={(user.currentCredit * 100) / user.targetCredit} />
                     </Box>
                     <div className="dashboard-activities">
                         <div className="dashboard-activities-table">

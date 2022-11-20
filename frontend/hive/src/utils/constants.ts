@@ -1,6 +1,7 @@
 export const API_CONSTS = {
     BASE_URL: 'http://localhost:5005/api/v1',
-    BEARER: 'Bearer asdf',
+    AUTH_URL: 'http://localhost:5005',
+    BEARER: 'Bearer',
 }
 
 export const ACTIVITY_TYPES_FIELDS = {
@@ -16,6 +17,6 @@ export const ACTIVITY_TYPES = {
 }
 
 export const USER_TYPES = {
-    ngo: 'NGO',
-    company: 'Company',
+    ngo: 'ong',
+    company: 'company',
 }
