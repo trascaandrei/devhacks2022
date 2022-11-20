@@ -18,6 +18,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { rootStore } from '../../../stores';
 
 const drawerWidth = 240;
 
@@ -27,6 +28,7 @@ interface IDrawerProps {
 
 export default function ResponsiveDrawer(props: IDrawerProps) {
 	const [mobileOpen, setMobileOpen] = React.useState(false);
+	const user = rootStore.userStore.getUserData();
 	
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
@@ -37,7 +39,7 @@ export default function ResponsiveDrawer(props: IDrawerProps) {
 			<div className="sidebar-account">
 				<AccountBoxIcon />
 				<div className="sidebar-account-info">
-					<p className="sidebar-account-title">N-Able</p>
+					<p className="sidebar-account-title">{user.name}</p>
 					<p className="sidebar-account-email">info@nable.com</p>
 				</div>
 			</div>

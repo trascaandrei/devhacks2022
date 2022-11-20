@@ -106,11 +106,12 @@ class CompanyDashboard extends React.Component<any, any> {
 
     componentDidMount(): void {
         rootStore.activitiesStore.fetchActivities();
-        console.log(rootStore.userStore.getUserData());
     }
 
     render() {
         const { activities } = rootStore.activitiesStore;
+        const user = rootStore.userStore.getUserData();
+
         const activitiesToDisplay = activities?.map((activity: any) => ({
             title: activity.title,
             amount: activity.details.nrSquareMeters || activity.details.nrTrees,
@@ -130,10 +131,10 @@ class CompanyDashboard extends React.Component<any, any> {
         return (
             <>
                 <Box sx={{ '& > :not(style)': { m: 1 } }}>
-                    <h1>Welcome, N-ABLE. You're almost there.</h1>
-                    <h3>You've given back 450/700 points</h3>
+                    <h1>Welcome, {user.name}. You're almost there.</h1>
+                    <h3>You've given back {user.currentCredit}/{user.targetCredit} points</h3>
                     <Box sx={{ width: '100%' }}>
-                        <BorderLinearProgress value={60} />
+                        <BorderLinearProgress value={(user.currentCredit * 100) / user.targetCredit} />
                     </Box>
                     <div className="dashboard-activities">
                         <div className="dashboard-activities-table">

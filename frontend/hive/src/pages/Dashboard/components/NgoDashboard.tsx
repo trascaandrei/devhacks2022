@@ -110,7 +110,7 @@ class NgoDashboard extends React.Component<any, any> {
             <>
                 <Box sx={{ '& > :not(style)': { m: 1 } }}>
                     <div className="dashboard-title">
-                        <h1>Welcome, N-ABLE</h1>
+                        <h1>Welcome, NGO X</h1>
                         <Fab color="primary" aria-label="add">
                             <AddIcon 
                                 onClick={() => this.setState({ open: true })}
