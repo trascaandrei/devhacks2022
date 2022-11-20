@@ -223,7 +223,7 @@ class Runner {
         const content: EntryInfo[] = await this._readFromFile(file);
 
         await Promise.all(content.filter((entry) => { return entry.type === UserType.COMPANY; }).map((entry) => {
-            return this._userService.add({ ...entry, userId: v4() });
+            return this._userService.add({ ...entry, userId: v4(), currentCredit: 0, targetCredit: 1000 });
         }));
     }
 
