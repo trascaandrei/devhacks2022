@@ -1,0 +1,21 @@
+.header-image-container {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+}
+
+.header-image {
+    width: 100%;
+}
+
+.auxiliary-banners {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 100%;
+}
+
+.auxiliary-banner {
+    width: 45%;
+}

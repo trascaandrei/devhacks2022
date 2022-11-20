@@ -9,12 +9,12 @@ export interface IUser {
 export class UserStore {
     constructor() {
         makeObservable(this, {
-
+            userData: observable,
         });
     }
 
     public userData: IUser = {
-        userType: USER_TYPES.company,
+        userType: USER_TYPES.ngo,
     } as IUser;
 
     public setUserData = (userData: IUser) => {
