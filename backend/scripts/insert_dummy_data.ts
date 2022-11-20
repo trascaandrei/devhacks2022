@@ -265,15 +265,17 @@ class Runner {
                 actionId: v4(),
                 ongId: ongs[index % ongs.length].userId,
                 activityId: activities[index % activities.length].activityId,
-                title: index % 2 ? 'Plantare copaci in Tineretului' : 'Adunare gunoaie spatii verzi',
+                title: index % 2 ? 'Planting trees in Tineretului park' : 'Cleaning the streets',
                 description: index % 2 ? 'Green everywhere campaign' : 'Clean green spaces campaign',
                 details: {}
             };
 
             if (index % 2) {
                 action.details.nrSquareMeters = (index + 1) * 50;
+                action.details.pricePerSquareMeter = 1;
             } else {
                 action.details.nrTrees = (index + 1) * 50;
+                action.details.pricePerTree = 2;
             }
 
             return this._actionService.add(action);
@@ -313,7 +315,7 @@ class Runner {
                 ongDetails: {},
                 companyDetails: {},
                 action: {
-                    title: index % 2 ? 'Plantare copaci in Tineretului' : 'Adunare gunoaie spatii verzi',
+                    title: index % 2 ? 'Planting trees in Tineretului park' : 'Cleaning the streets',
                     description: index % 2 ? 'Green everywhere campaign' : 'Clean green spaces campaign'
                 }
             };
