@@ -3,6 +3,7 @@ import { Controller } from './controller';
 import { StatisticService } from '../services/statistic_service';
 import { Constants } from '../constants';
 import { UserType } from '../utils/user_type';
+import { IRequest } from '../interfaces/express_req_interface';
 
 export class StatisticController extends Controller {
     private _statisticService: StatisticService = new StatisticService();
@@ -23,6 +24,18 @@ export class StatisticController extends Controller {
 
         res.status(Constants.STATUS_CODE.CREATED).json({
             companies: await this._statisticService.find(filter, projection)
+        });
+    }
+
+    public async groupCompanyRequests(req: IRequest, res: Response, next: NextFunction): Promise<void> {
+        res.status(Constants.STATUS_CODE.CREATED).json({
+            requests: await this._statisticService.groupRequests({ companyId: req.userId })
+        });
+    }
+    
+    public async groupCompanyHistories(req: IRequest, res: Response, next: NextFunction): Promise<void> {
+        res.status(Constants.STATUS_CODE.CREATED).json({
+            histories: await this._statisticService.groupHistories({ companyId: req.userId })
         });
     }
 };

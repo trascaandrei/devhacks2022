@@ -234,8 +234,8 @@ class Runner {
     private async _insertFromFile(file: string): Promise<void> {
         const content: EntryInfo[] = await this._readFromFile(file);
 
-        await Promise.all(content.filter((entry) => { return entry.type === UserType.COMPANY; }).map((entry) => {
-            return this._userService.add({ ...entry, userId: v4(), currentCredit: 0, targetCredit: 1000 });
+        await Promise.all(content.filter((entry: EntryInfo) => { return entry.type === UserType.COMPANY; }).map((entry: EntryInfo, index: number) => {
+            return this._userService.add({ ...entry, userId: v4(), currentCredit: (index + 1) * (index * 10), targetCredit: 1000 });
         }));
 
         await Promise.all(content.filter((entry) => { return entry.type === UserType.ONG; }).map((entry) => {
