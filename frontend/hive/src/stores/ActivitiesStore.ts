@@ -13,6 +13,8 @@ export interface IActivityType {
 
 export interface IActivity {
     actionId: string;
+    title: string;
+    description: string;
     details: {
         nrSquareMeters?: number,
         pricePerSquareMeter?: number,
@@ -30,9 +32,14 @@ export interface IActivity {
 export class ActivitiesStore {
     constructor() {
         makeObservable(this, {
+            activities: observable,
+            setActivities: action,
+            fetchActivities: action,
+
             activityTypes: observable,
             setActivityTpes: action,
             fetchActivityTypes: action,
+            createRequest: action,
         });
     }
 
@@ -55,7 +62,7 @@ export class ActivitiesStore {
                 console.log(err);
             });
 
-        console.log(response);
+        this.setActivities(response.actions);
     }
 
     public createActivity = async (activity: any) => {
@@ -74,6 +81,19 @@ export class ActivitiesStore {
         this.fetchActivities();
     }
 
+    public createRequest = async (action: any) => {
+        await fetch(`${API_CONSTS.BASE_URL}/requests/`, {
+            method: 'POST',
+            headers: {
+                Authorization: API_CONSTS.BEARER,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(action),
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
 
     // ACTIVITY TYPES
     public activityTypes: IActivityType[] = [];

@@ -14,3 +14,8 @@ export const ACTIVITY_TYPES = {
     plantingTrees: 'Planting trees',
     cleaningWaste: 'Cleaning waste',
 }
+
+export const USER_TYPES = {
+    ngo: 'NGO',
+    company: 'Company',
+}

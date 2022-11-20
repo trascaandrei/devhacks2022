@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { observer } from "mobx-react";
+import { rootStore } from '../../stores';
 
 import ResponsiveDrawer from './components/sidebar';
 
@@ -7,42 +9,42 @@ import EqualizerIcon from '@mui/icons-material/Equalizer';
 import WorkIcon from '@mui/icons-material/Work';
 
 import { routeNames } from '../../utils/routes';
+import { USER_TYPES } from '../../utils/constants';
 
 import './index.css';
 
-const companyMenu = [
-];
-
 class DashboardLayout extends React.Component<any, any> {
-    ngoMenu = [
-        {
-            text: 'Dashboard',
-            icon: <DashboardIcon />,
-            link: routeNames.dashboard,
-    
-        }, 
-        {
-            text: 'Requests',
-            icon: <EqualizerIcon />,
-            link: routeNames.requests,
-        },
-        {
-            text: 'Activities',
-            icon: <WorkIcon />,
-            link: routeNames.activities,
-        },
-    ];
-
     constructor(props: any) {
         super(props);
-        this.state = {};
+        this.state = {
+        };
     }
 
     render() {
+        const userType = rootStore.userStore.userData.userType;
+        const menu = [
+            {
+                text: 'Dashboard',
+                icon: <DashboardIcon />,
+                link: routeNames.dashboard,
+        
+            }, 
+            {
+                text: 'Activities',
+                icon: <WorkIcon />,
+                link: routeNames.activities,
+            },
+            {
+                text: userType === USER_TYPES.ngo ? 'Requests' : 'History',
+                icon: <EqualizerIcon />,
+                link: routeNames.requests,
+            },
+        ];
+
         return (
             <div className="Dashboard">
                 <ResponsiveDrawer 
-                    menu={this.ngoMenu}
+                    menu={menu}
                 />
                 <div className="dashboard-content">
                     {this.props.children}
@@ -52,4 +54,4 @@ class DashboardLayout extends React.Component<any, any> {
     }
 }
 
-export default DashboardLayout;
+export default observer(DashboardLayout);

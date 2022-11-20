@@ -54,9 +54,6 @@ export default function ResponsiveDrawer(props: IDrawerProps) {
 					</ListItem>
 				))}
 			</List>
-			{/* <Button variant="contained" color="primary" style={{margin: '10px'}} className="sidebar-logout">
-				Logout
-			</Button> */}
 			<ListItem disablePadding component={Link} to="/" className="sidebar-logout">
 				<ListItemButton>
 					<ListItemIcon>
