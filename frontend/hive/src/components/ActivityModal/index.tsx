@@ -49,19 +49,20 @@ class ActivityModal extends React.Component<any, any> {
 
     submitForm = () => {
         const { contribution } = this.state;
-        const { activity } = this.props;
+        const { activity, isRequest } = this.props;
 
-        console.log(activity, contribution);
-
-        const payload = {
-            actionId: activity?.actionId,
-            details: {
-                nrSquareMeters: parseInt(contribution),
+        if (!isRequest) {
+            const payload = {
+                actionId: activity?.actionId,
+                details: {
+                    nrSquareMeters: parseInt(contribution),
+                }
             }
+            
+            rootStore.activitiesStore.createRequest(payload);
+        } else {
+            rootStore.activitiesStore.approveRequest(activity?.requestId);
         }
-        console.log(payload);
-        
-        rootStore.activitiesStore.createRequest(payload);
 
         this.props.handleClose(true);
     }
@@ -80,40 +81,64 @@ class ActivityModal extends React.Component<any, any> {
                     aria-describedby="modal-modal-description"
                 >
                     <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h5" component="h3">
-                            {activity?.title}
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            {activity?.description}
-                        </Typography>
-                        <Typography id="modal-modal-info" sx={{ mt: 2 }}>
-                            Total needed: <b>{totalNeeded}</b> <br/>
-                            Price per unit: <b>{activity?.details?.pricePerTree || activity?.details?.pricePerSquareMeter} $</b>
-                        </Typography>
-                        <div className="create-activity-form">
-                            <Box sx={{ width: '100%' }}>
-                                <LinearProgressWithLabel value={100 * (contribution || 0) / totalNeeded} />
-                            </Box>
-                            <TextField
-                                style={{ width: "100%", margin: "5px" }}
-                                type="text"
-                                label="Your contribution (no of units)"
-                                variant="outlined"
-                                onChange={(event: any) => {
-                                    this.setState({
-                                        contribution: event.target.value
-                                    })
-                                }}
-                            />
+                        {!this.props.isRequest ? (
+                            <>
+                                <Typography id="modal-modal-title" variant="h5" component="h3">
+                                    {activity?.title}
+                                </Typography>
+                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                    {activity?.description}
+                                </Typography>
+                                <Typography id="modal-modal-info" sx={{ mt: 2 }}>
+                                    Total needed: <b>{totalNeeded}</b> <br/>
+                                    Price per unit: <b>{activity?.details?.pricePerTree || activity?.details?.pricePerSquareMeter} $</b>
+                                </Typography>
+                            
+                                <div className="create-activity-form">
+                                    <Box sx={{ width: '100%' }}>
+                                        <LinearProgressWithLabel value={100 * (contribution || 0) / totalNeeded} />
+                                    </Box>
+                                    <TextField
+                                        style={{ width: "100%", margin: "5px" }}
+                                        type="text"
+                                        label="Your contribution (no of units)"
+                                        variant="outlined"
+                                        onChange={(event: any) => {
+                                            this.setState({
+                                                contribution: event.target.value
+                                            })
+                                        }}
+                                    />
 
-                            <Button
-                                variant="contained" 
-                                style={{ marginTop: "25px" }}
-                                onClick={this.submitForm}
-                            >
-                                Contribute
-                            </Button>
-                        </div>
+                                    <Button
+                                        variant="contained" 
+                                        style={{ marginTop: "25px" }}
+                                        onClick={this.submitForm}
+                                    >
+                                        Contribute
+                                    </Button>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <Typography id="modal-modal-title" variant="h5" component="h3">
+                                    {activity?.action.title}
+                                </Typography>
+                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                    {activity?.action.description}
+                                </Typography>
+                                <Typography id="modal-modal-info" sx={{ mt: 2 }}>
+                                    Suggested amount: <b>{totalNeeded}</b> units by <b>{activity?.company.name}</b> <br/>
+                                </Typography>
+                                <Button
+                                    variant="contained" 
+                                    style={{ marginTop: "25px" }}
+                                    onClick={this.submitForm}
+                                >
+                                    Accept
+                                </Button>
+                            </>
+                        )}
                     </Box>
                 </Modal>
             </div>

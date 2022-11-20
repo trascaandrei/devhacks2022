@@ -21,7 +21,8 @@ class DashboardLayout extends React.Component<any, any> {
     }
 
     render() {
-        const userType = rootStore.userStore.userData.type;
+        const userType = rootStore.userStore.getUserData().type;
+        console.log(userType);
         const menu = [
             {
                 text: 'Dashboard',

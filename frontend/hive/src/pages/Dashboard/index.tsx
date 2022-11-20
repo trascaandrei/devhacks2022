@@ -19,7 +19,7 @@ class Dashboard extends React.Component<any, any> {
     }
 
     render() {
-        const userType = rootStore.userStore.userData.type;
+        const userType = rootStore.userStore.getUserData().type;
 
         return (
             <DashboardLayout>
