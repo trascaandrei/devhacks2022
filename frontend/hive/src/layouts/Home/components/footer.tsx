@@ -5,7 +5,7 @@ class Footer extends React.Component<any, any> {
         return (
             <div className="footer">
                 <img
-                    src={require('../../../assets/images/logo.png')} 
+                    src={require('../../../assets/images/logo-2.png')} 
                     alt="logo" 
                     style={{marginRight: 15, marginLeft: 25}}
                 />

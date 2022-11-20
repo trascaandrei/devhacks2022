@@ -20,10 +20,6 @@ class FiltrableTable extends React.Component<any, any> {
         this.state = {};
     }
 
-    componentDidMount(): void {
-        
-    }
-
     render() {
         const filtersToDisplay = filters?.map((filter: string, index: number) => {
             return (
@@ -49,16 +45,34 @@ class FiltrableTable extends React.Component<any, any> {
                         </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.props.rows?.map((row: any) => (
+                            {this.props.data?.sort((a: any, b: any) => b.currentCredit - a.currentCredit).map((row: any, index: number) => (
                                 <TableRow
                                     key={row.name}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    {Object.keys(row)?.map?.((rowField: string, index: number) => (
+                                    {/* {Object.keys(row)?.map?.((rowField: string, index: number) => (
                                         <TableCell component="th" scope="row" key={`key-${rowField}-${index}`}>
                                             {(row as any)[rowField]}
                                         </TableCell>
-                                    ))}
+                                    ))} */}
+                                        <TableCell component="th" scope="row">
+                                            {index + 1}
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            <img
+                                                src={row.logoUrl}
+                                                alt="company logo"
+                                                className="company-logo"
+                                            />
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {row.name}
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {row.currentCredit} / {row.targetCredit}
+                                        </TableCell>
+
+
                                 </TableRow>
                             ))}
                         </TableBody>
