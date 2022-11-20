@@ -38,18 +38,6 @@ export class RequestController extends Controller {
         });
     }
 
-    private _getNextStatus(status: RequestStatus): RequestStatus | null {
-        if (status === RequestStatus.PENDING) {
-            return RequestStatus.ACCEPTED;
-        }
-
-        if (status === RequestStatus.ACCEPTED) {
-            return RequestStatus.COMPLETED;
-        }
-
-        return null;
-    }
-
     private _getCredit(details: Record<string, unknown>): number {
         return (details.nrSquareMeters || details.nrTrees || 0) as number;
     }
@@ -58,12 +46,6 @@ export class RequestController extends Controller {
         const request: InternalRequestDetailsInterface = await this._requestService.getRequestDetails(req.params.requestId, req.userId);
         
         const status: RequestStatus = req.body.status;
-        const nextStatus: RequestStatus | null = this._getNextStatus(request.status);
-
-        if (nextStatus === null || (status !== RequestStatus.REJECTED && status !== nextStatus)
-                || (status === RequestStatus.REJECTED && request.status === RequestStatus.ACCEPTED)) {
-            throw new ServerError(Constants.ERR_MESSAGES.UNAUTHORIZED, Constants.STATUS_CODE.UNAUTHORIZED);
-        }
 
         if (status === RequestStatus.COMPLETED || status === RequestStatus.REJECTED) {
             await this._requestService.delete({ requestId: req.params.requestId });
