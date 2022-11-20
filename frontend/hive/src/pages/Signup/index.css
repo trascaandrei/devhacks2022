@@ -1,0 +1,19 @@
+.Signup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #228b22bd;
+}
+
+.signup-modal {
+    background-color: #ffffff;
+    width: 50%;
+    height: 600px;
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+    padding-bottom: 50px;
+}

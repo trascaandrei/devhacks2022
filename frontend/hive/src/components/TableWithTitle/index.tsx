@@ -29,18 +29,18 @@ class TableWithTitle extends React.Component<any, any> {
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
                         <TableHead>
                         <TableRow>
-                            {this.props.tableHeaders.map((header: string) => (
+                            {this.props.tableHeaders?.map((header: string) => (
                                 <TableCell align="left" key={header}>{header}</TableCell>
                             ))}
                         </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.props.rows.map((row: any) => (
+                            {this.props.rows?.map((row: any) => (
                                 <TableRow
                                     key={row.name}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    {Object.keys(row).map((rowField: string, index: number) => (
+                                    {Object.keys(row)?.map((rowField: string, index: number) => (
                                         <TableCell component="th" scope="row" key={`key-${rowField}-${index}`}>
                                             {(row as any)[rowField]}
                                         </TableCell>

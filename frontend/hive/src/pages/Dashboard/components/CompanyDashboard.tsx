@@ -60,13 +60,13 @@ export const data = {
     datasets: [
         {
             label: 'Points aquired',
-            data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+            data: labels?.map(() => faker.datatype.number({ min: 0, max: 1000 })),
             borderColor: '#FFC000',
             backgroundColor: '#FFC000',
         },
         {
             label: 'Points remained',
-            data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+            data: labels?.map(() => faker.datatype.number({ min: 0, max: 1000 })),
             borderColor: 'white',
             backgroundColor: 'white',
         },
@@ -106,11 +106,12 @@ class CompanyDashboard extends React.Component<any, any> {
 
     componentDidMount(): void {
         rootStore.activitiesStore.fetchActivities();
+        console.log(rootStore.userStore.getUserData());
     }
 
     render() {
         const { activities } = rootStore.activitiesStore;
-        const activitiesToDisplay = activities.map((activity: any) => ({
+        const activitiesToDisplay = activities?.map((activity: any) => ({
             title: activity.title,
             amount: activity.details.nrSquareMeters || activity.details.nrTrees,
             price: activity.details.pricePerTree || activity.details.pricePerSquareMeter,
