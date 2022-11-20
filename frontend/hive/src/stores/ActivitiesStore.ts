@@ -193,7 +193,7 @@ export class ActivitiesStore {
             .catch((err) => {
                 console.log(err);
             });
-        this.setRequests(response.requests.filter((request: any) => request.status === 'pending'));
+        this.setRequests(response.requests);
     }
 
     public approveRequest = async (requestId: string) => {
@@ -205,13 +205,36 @@ export class ActivitiesStore {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                status: 'accepted',
+                status: 'completed',
             }),
         })
         .catch((err) => {
             console.log(err);
         });
         this.fetchRequests();
+    }
+
+    // HISTORY
+    public history: IHistory[] = [];
+
+    public setHistory = (history: IHistory[]) => {
+        this.history = history;
+    }
+
+    public fetchHistory = async () => {
+        const token = JSON.parse(window.localStorage.getItem('userData') || '{}').accessToken;
+        const response = await 
+            fetch(`${API_CONSTS.BASE_URL}/histories`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((res) => res.json())
+            .catch((err) => {
+                console.log(err);
+            });
+        console.log(response);
+        this.setHistory(response.histories);
     }
 }
 
