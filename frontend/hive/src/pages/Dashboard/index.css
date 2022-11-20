@@ -3,3 +3,15 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.company-analytics {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-analytics-linechart {
+    width: 48%;
+}

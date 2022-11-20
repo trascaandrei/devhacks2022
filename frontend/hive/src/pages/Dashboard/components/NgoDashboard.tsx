@@ -78,20 +78,14 @@ class NgoDashboard extends React.Component<any, any> {
 
     render() {
         const { activities, requests } = rootStore.activitiesStore;
+        const user = rootStore.userStore.getUserData();
+
+        console.log('activities', activities);
         const activitiesToDisplay = activities.map((activity: any) => ({
             title: activity.title,
             amount: activity.details.nrSquareMeters || activity.details.nrTrees,
             price: activity.details.pricePerTree || activity.details.pricePerSquareMeter,
             status: 'In progress',
-            actions: (
-                <Fab
-                    color="primary"
-                    size="small"
-                    onClick={() => this.setState({ open: true })}
-                >
-                    <VisibilityIcon />
-                </Fab>
-            )
         }));
         const requestsToDisplay = requests.map((request: any) => ({
             title: request.action.title,
@@ -112,7 +106,7 @@ class NgoDashboard extends React.Component<any, any> {
             <>
                 <Box sx={{ '& > :not(style)': { m: 1 } }}>
                     <div className="dashboard-title">
-                        <h1>Welcome, NGO X</h1>
+                        <h1>Welcome, {user.name}</h1>
                         <Fab color="primary" aria-label="add">
                             <AddIcon 
                                 onClick={() => this.setState({ open: true })}
@@ -123,7 +117,7 @@ class NgoDashboard extends React.Component<any, any> {
                         <div className="dashboard-activities-table">
                             <TableWithTitle 
                                 title="Your activities"
-                                tableHeaders={['Activity', 'Amount', 'Price', 'Status', 'Actions']}
+                                tableHeaders={['Activity', 'Amount', 'Price', 'Status']}
                                 rows={activitiesToDisplay}
                                 moreLink={routeNames.activities}
                             />

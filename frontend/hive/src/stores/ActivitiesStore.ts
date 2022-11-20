@@ -1,3 +1,4 @@
+import { cu } from "chart.js/dist/chunks/helpers.core";
 import { makeObservable, observable, action, } from "mobx";
 import { API_CONSTS, ACTIVITY_TYPES_FIELDS } from "../utils/constants";
 import { rootStore } from "./index";
@@ -76,6 +77,15 @@ export class ActivitiesStore {
             requests: observable,
             setRequests: action,
             fetchRequests: action,
+
+            history: observable,
+            setHistory: action,
+            fetchHistory: action,
+
+            fetchAnalytics: action,
+            analyticsHistory: observable,
+            setAnalytics: action,
+            analyticsRequests: observable,
         });
     }
 
@@ -99,7 +109,7 @@ export class ActivitiesStore {
                 console.log(err);
             });
 
-        this.setActivities(response.actions);
+        this.setActivities(response.actions.slice(0, 5));
     }
 
     public createActivity = async (activity: any) => {
@@ -193,7 +203,7 @@ export class ActivitiesStore {
             .catch((err) => {
                 console.log(err);
             });
-        this.setRequests(response.requests);
+        this.setRequests(response.requests.slice(0, 5));
     }
 
     public approveRequest = async (requestId: string) => {
@@ -233,8 +243,74 @@ export class ActivitiesStore {
             .catch((err) => {
                 console.log(err);
             });
-        console.log(response);
-        this.setHistory(response.histories);
+        this.setHistory(response.histories.slice(0, 5));
+    }
+
+    // ANALYTICS
+    public analyticsRequests: any = null;
+    public analyticsHistory: any = null;
+
+    public setAnalytics = (requestsData: any, historyData: any) => {
+        this.analyticsHistory = {
+            completed: Object.keys(historyData.histories.completed).map((key: string) => {
+                return {
+                    [key]: historyData.histories.completed?.[key]?.length,
+                }   
+            }).reduce((acc, curr) => {
+                return {
+                    ...acc, ...curr
+                }
+            }, {}),
+            rejected: Object.keys(historyData.histories.rejected).map((key: string) => {
+                return {
+                    [key]: historyData.histories.rejected?.[key]?.length,
+                }   
+            }).reduce((acc, curr) => {
+                return {
+                    ...acc, ...curr
+                }
+            }, {}),
+        }
+
+        this.analyticsRequests = {
+            pending: Object.keys(requestsData.requests.pending).map((key: string) => {
+                return {
+                    [key]: requestsData.requests.pending?.[key]?.length,
+                }   
+            }).reduce((acc, curr) => {
+                return {
+                    ...acc, ...curr
+                }
+            }, {}),
+            accepted: Object.keys(requestsData.requests.accepted).map((key: string) => {
+                return {
+                    [key]: requestsData.requests.accepted?.[key]?.length,
+                }   
+            }).reduce((acc, curr) => {
+                return {
+                    ...acc, ...curr
+                }
+            }, {}),
+        }
+    }
+
+    public fetchAnalytics = async () => {
+        const token = JSON.parse(window.localStorage.getItem('userData') || '{}').accessToken;
+        const response1 = await fetch(`${API_CONSTS.BASE_URL}/statistics/companies/requests`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        const response2 = await fetch(`${API_CONSTS.BASE_URL}/statistics/companies/histories`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        
+        const data1 = await response1.json();
+        const data2 = await response2.json();
+
+        this.setAnalytics(data1, data2);
     }
 }
 

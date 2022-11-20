@@ -91,9 +91,53 @@ class CompanyDashboard extends React.Component<any, any> {
     componentDidMount(): void {
         rootStore.activitiesStore.fetchActivities();
         rootStore.activitiesStore.fetchHistory();
+        rootStore.activitiesStore.fetchAnalytics();
     }
 
     render() {
+        const { analyticsRequests, analyticsHistory} = rootStore.activitiesStore;
+        
+        const historyAnalytics = {
+            labels: Object.keys(analyticsHistory?.completed || {}),
+            datasets: [
+                {
+                    label: 'Activities completed',
+                    data: Object.keys(analyticsHistory?.completed || {}).map((key) => analyticsHistory.completed[key]),
+                    borderColor: '#FFC000',
+                    backgroundColor: '#FFC000',
+                },
+                {
+                    label: 'Activities rejected',
+                    data: Object.keys(analyticsHistory?.rejected || {}).map((key) => analyticsHistory.rejected[key]),
+                    borderColor: '#FF4433',
+                    backgroundColor: '#FF4433',
+                },
+            ],
+        };
+
+        const requestsAnalytics = {
+            labels: Object.keys(analyticsRequests?.pending || {}),
+            datasets: [
+                {
+                    label: 'Requests in pending',
+                    data: Object.keys(analyticsRequests?.pending || {}).map((key) => analyticsRequests.pending[key]),
+                    borderColor: '#FFC000',
+                    backgroundColor: '#FFC000',
+                },
+                {
+                    label: 'Requests approved',
+                    data: Object.keys(analyticsRequests?.accepted || {}).map((key) => analyticsRequests.accepted[key]),
+                    borderColor: 'white',
+                    backgroundColor: 'white',
+                },
+            ],
+        };
+
+        const newOptions = {
+            ...options,
+            responsive: true,
+        }
+
         const { activities, history } = rootStore.activitiesStore;
         const user = rootStore.userStore.getUserData();
 
@@ -159,6 +203,22 @@ class CompanyDashboard extends React.Component<any, any> {
                     handleClose={() => this.setState({ openActivity: false })}
                     activity={this.state.activity}
                 />
+
+                <div className="company-analytics">
+                    <div className="dashboard-analytics-linechart">
+                        <h1>Requests</h1>
+                        <div className="dashboard-activities-linechart">
+                            <Line options={newOptions} data={requestsAnalytics} width="100%" height="50px"/>
+                        </div>
+                    </div>
+
+                    <div className="dashboard-analytics-linechart">
+                        <h1>History</h1>
+                        <div className="dashboard-activities-linechart">
+                            <Line options={newOptions} data={historyAnalytics} width="100%" height="50px"/>
+                        </div>
+                    </div>
+                </div>
             </>
         );
     }
