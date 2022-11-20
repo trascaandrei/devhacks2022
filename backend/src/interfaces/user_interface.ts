@@ -6,11 +6,15 @@ export interface UserInterface extends Document {
     username: string;
     password: string;
     type: UserType;
-    cui?: String;
+    name: string;
+    cui?: string;
+    targetCredit?: number;
+    currentCredit?: number;
     matchPassword?: (password: string) => PromiseLike<boolean>;
 };
 
 interface Entity {
+    name: string;
     email: string;
     cui?: string;
 };

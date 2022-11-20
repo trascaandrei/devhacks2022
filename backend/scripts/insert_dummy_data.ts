@@ -105,7 +105,8 @@ class Runner {
             password: 'password',
             email: 'adrianstefan376@gmail.com',
             type: UserType.COMPANY,
-            cui: '13547272'
+            cui: '13547272',
+            name: "Compnay1"
         };
 
         const company2: Record<string, unknown> = {
@@ -114,7 +115,8 @@ class Runner {
             password: 'password',
             email: 'stefan.adrian1997@yahoo.com',
             type: UserType.COMPANY,
-            cui: '18189442'
+            cui: '18189442',
+            name: "Compnay2"
         };
 
         const ong1: Record<string, unknown> = {
@@ -122,7 +124,8 @@ class Runner {
             username: 'ong-one',
             password: 'password',
             email: 'contact@trsdesign.ro',
-            type: UserType.ONG
+            type: UserType.ONG,
+            name: "ONG1"
         };
 
         const ong2: Record<string, unknown> = {
@@ -130,7 +133,8 @@ class Runner {
             username: 'ong-two',
             password: 'password',
             email: 'andrei.trasca@trsdesign.ro',
-            type: UserType.ONG
+            type: UserType.ONG,
+            name: "ONG2"
         };
 
         const promises: Promise<UserInterface>[] = [];

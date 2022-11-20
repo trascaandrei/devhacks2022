@@ -66,7 +66,8 @@ export class RequestService extends Service {
                     },
                     company: {
                         cui: '$companies.cui',
-                        email: '$companies.email'
+                        email: '$companies.email',
+                        name: "$companies.name"
                     },
                     status: 1,
                     details: 1

@@ -16,6 +16,21 @@ cd scripts
 npx ts-node insert_dummy_data.ts
 ```
 
+## Run server
+
+Before running the server make sure to define the following *.env* file in the project root directory
+```bash
+PORT=5000
+MONGO_URI=mongodb://localhost:27017
+DB_NAME=devhacks
+MONGO_USERNAME= # username; leave it empty if no password is required
+MONGO_PASSWORD= # password; leave it empty if no password is required
+SECRET_KEY= # secret string
+EXPIRES_IN=86400
+ORIGIN=http://localhost:3000
+
+```
+
 ## Activities API
 
 1. get list of defined activities
@@ -29,7 +44,7 @@ GET /api/v1/activities/
         {
             "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
             "name": "Adunare gunoaie",
-            "description": "Adunarea gunoaielor de pe saptiile verzi",
+            "description": "Adunarea gunoaielor de pe spatiile verzi",
             "details": [
                 "nrSquareMeters",
                 "pricePerSquareMeter"
@@ -90,7 +105,7 @@ GET /api/v1/actions/
             "activity": {
                 "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
                 "name": "Adunare gunoaie",
-                "description": "Adunarea gunoaielor de pe saptiile verzi",
+                "description": "Adunarea gunoaielor de pe spatiile verzi",
                 "details": [
                     "nrSquareMeters",
                     "pricePerSquareMeter"
@@ -108,7 +123,7 @@ GET /api/v1/actions/
             "activity": {
                 "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
                 "name": "Adunare gunoaie",
-                "description": "Adunarea gunoaielor de pe saptiile verzi",
+                "description": "Adunarea gunoaielor de pe spatiile verzi",
                 "details": [
                     "nrSquareMeters",
                     "pricePerSquareMeter"
@@ -140,7 +155,7 @@ GET /api/v1/actions/all
             "activity": {
                 "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
                 "name": "Adunare gunoaie",
-                "description": "Adunarea gunoaielor de pe saptiile verzi",
+                "description": "Adunarea gunoaielor de pe spatiile verzi",
                 "details": [
                     "nrSquareMeters",
                     "pricePerSquareMeter"
@@ -161,7 +176,7 @@ GET /api/v1/actions/all
             "activity": {
                 "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
                 "name": "Adunare gunoaie",
-                "description": "Adunarea gunoaielor de pe saptiile verzi",
+                "description": "Adunarea gunoaielor de pe spatiile verzi",
                 "details": [
                     "nrSquareMeters",
                     "pricePerSquareMeter"
@@ -218,7 +233,7 @@ GET /api/v1/requests/
             "activity": {
                 "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
                 "name": "Adunare gunoaie",
-                "description": "Adunarea gunoaielor de pe saptiile verzi",
+                "description": "Adunarea gunoaielor de pe spatiile verzi",
                 "details": [
                     "nrSquareMeters",
                     "pricePerSquareMeter"
@@ -230,7 +245,8 @@ GET /api/v1/requests/
             },
             "company": {
                 "cui": "18189442",
-                "email": "adrianstefan376@gmail.com"
+                "email": "adrianstefan376@gmail.com",
+                "name": "Company1"
             }
         },
         {
@@ -243,7 +259,7 @@ GET /api/v1/requests/
             "activity": {
                 "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
                 "name": "Adunare gunoaie",
-                "description": "Adunarea gunoaielor de pe saptiile verzi",
+                "description": "Adunarea gunoaielor de pe spatiile verzi",
                 "details": [
                     "nrSquareMeters",
                     "pricePerSquareMeter"
@@ -255,7 +271,8 @@ GET /api/v1/requests/
             },
             "company": {
                 "cui": "18189442",
-                "email": "contact@trsdesign.ro"
+                "email": "contact@trsdesign.ro",
+                "name": "Company1"
             }
         }
     ]
@@ -309,7 +326,7 @@ GET /api/v1/histories/
             "activity": {
                 "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
                 "name": "Adunare gunoaie",
-                "description": "Adunarea gunoaielor de pe saptiile verzi",
+                "description": "Adunarea gunoaielor de pe spatiile verzi",
                 "details": [
                     "nrSquareMeters",
                     "pricePerSquareMeter"
@@ -340,7 +357,7 @@ GET /api/v1/histories/
             "activity": {
                 "activityId": "edc88eaa-bd8a-4a8a-9b18-ed2ec2320435",
                 "name": "Adunare gunoaie",
-                "description": "Adunarea gunoaielor de pe saptiile verzi",
+                "description": "Adunarea gunoaielor de pe spatiile verzi",
                 "details": [
                     "nrSquareMeters",
                     "pricePerSquareMeter"
@@ -354,5 +371,84 @@ GET /api/v1/histories/
             }
         }
     ]
+}
+```
+
+## Auth API
+
+1. signup
+
+```bash
+POST /signup
+```
+
+-  if ong account was created
+
+```JSON
+{
+    "username": "adrian",
+    "password": "password",
+    "email": "adrianstefan372@gmail.com",
+    "type": "ong",
+    "name": "ONG1",
+    "cui": "13547272"
+}
+```
+
+```JSON
+{
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhNGU4YTIyMy1mMjkwLTQ5YjUtOThmMS1jMmZiZTkwMDVkMjEiLCJ0eXBlIjoib25nIiwiaWF0IjoxNjY4OTAwMjg0LCJleHAiOjE2Njg5ODY2ODR9.hZsvOynAw7hZXii7_zqzohxscT1jJy84OheWryY8QNU"
+}
+```
+
+- if company account was created
+
+```JSON
+{
+    "username": "adrian",
+    "password": "password",
+    "email": "adrianstefan372@gmail.com",
+    "type": "company",
+    "name": "Company1",
+    "cui": "13547272"
+}
+```
+
+```JSON
+{
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0OWQ4YWM0ZS00ZDQzLTRlYzYtYTc0Yy03ODg1NmM2Y2RmZjQiLCJ0eXBlIjoiY29tcGFueSIsImlhdCI6MTY2ODkwMTExMSwiZXhwIjoxNjY4OTg3NTExfQ._h2gMAURroe6j4I1M0awA3QGwnuKE8GQgBf5fhzCsf0",
+    "currentCredit": 0,
+    "targetCredit": 1000
+}
+```
+
+2. login
+
+```bash
+POST /login
+```
+
+```JSON
+{
+    "username": "adrian",
+    "password": "password",
+}
+```
+
+- if ong account
+
+```JSON
+{
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhNGU4YTIyMy1mMjkwLTQ5YjUtOThmMS1jMmZiZTkwMDVkMjEiLCJ0eXBlIjoib25nIiwiaWF0IjoxNjY4OTAwMjg0LCJleHAiOjE2Njg5ODY2ODR9.hZsvOynAw7hZXii7_zqzohxscT1jJy84OheWryY8QNU"
+}
+```
+
+- if company account
+
+```JSON
+{
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0OWQ4YWM0ZS00ZDQzLTRlYzYtYTc0Yy03ODg1NmM2Y2RmZjQiLCJ0eXBlIjoiY29tcGFueSIsImlhdCI6MTY2ODkwMTExMSwiZXhwIjoxNjY4OTg3NTExfQ._h2gMAURroe6j4I1M0awA3QGwnuKE8GQgBf5fhzCsf0",
+    "currentCredit": 500,
+    "targetCredit": 1000
 }
 ```

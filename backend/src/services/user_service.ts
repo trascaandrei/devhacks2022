@@ -9,7 +9,7 @@ export class UserService extends Service {
         const user: UserInterface | null = await User.findOne(filter, projection).exec();
 
         if (!user) {
-            throw new ServerError(Constants.ERR_MESSAGES.USER_NOT_FOUND, Constants.STATUS_CODE.NOT_FOUND);
+            throw new ServerError(Constants.ERR_MESSAGES.INVALID_DATA, Constants.STATUS_CODE.UNAUTHENTICATED);
         }
 
         return user;
@@ -19,5 +19,9 @@ export class UserService extends Service {
         const user: UserInterface = new User(data);
 
         return user.save();
+    }
+
+    public async updateOne(filter: Record<string, unknown>, data: Record<string, unknown>) {
+        return User.updateOne(filter, data)
     }
 };

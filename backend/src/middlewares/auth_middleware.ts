@@ -9,9 +9,10 @@ export class AuthMiddleware extends Middleware {
 
     public async checkAuthToken(req: IRequest, res: Response, next: NextFunction): Promise<void> {
         const token: string = req.headers.authorization.split(' ')[1];
-        // const jwt: object = await this._tokenHandler.verify(token, Config.SECRET_KEY);
+        const jwt: Record<string, unknown> = await this._tokenHandler.verify(token, Config.SECRET_KEY);
+        /* TODO: should check if the userId is valid */
        
-        req.userId = '40d4ca9d-102c-42a9-8d3a-c164c6608a8a'; // TODO: get it from decoded token
+        req.userId = jwt.userId as string;
 
         next();
     }

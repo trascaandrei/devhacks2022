@@ -2,6 +2,7 @@ export class Constants {
 
     public static STATUS_CODE = {
         BAD_REQUEST: 400,
+        UNAUTHENTICATED: 401,
         UNAUTHORIZED: 403,
         NOT_FOUND: 404,
         SERVER_ERROR: 500,

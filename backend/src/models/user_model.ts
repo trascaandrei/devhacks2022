@@ -37,8 +37,18 @@ const UserSchema = new Schema({
         enum: [UserType.ONG, UserType.COMPANY],
         required: [true, '\'type\' is required']
     },
+    name: {
+        type: String,
+        required: true
+    },
     cui: {
         type: String
+    },
+    targetCredit: {
+        type: Number
+    },
+    currentCredit: {
+        type: Number
     }
 });
 

@@ -8,10 +8,14 @@ import { RequestStatus } from '../utils/request_status';
 import { ServerError } from '../errors/server_error';
 import { InternalRequestDetailsInterface } from '../interfaces/request_details_interface';
 import { HistoryService } from '../services/history_service';
+import { UserInterface } from '../interfaces/user_interface';
+import { UserService } from '../services/user_service';
+import { UserType } from '../utils/user_type';
 
 export class RequestController extends Controller {
     private _requestService: RequestService = new RequestService();
     private _historyService: HistoryService = new HistoryService();
+    private _userService: UserService = new UserService();
 
     public async addRequestByCompany(req: IRequest, res: Response, next: NextFunction): Promise<void> {
         const actionData: Record<string, unknown> = {
@@ -46,6 +50,10 @@ export class RequestController extends Controller {
         return null;
     }
 
+    private _getCredit(details: Record<string, unknown>): number {
+        return (details.nrSquareMeters || details.nrTrees || 0) as number;
+    }
+
     public async updateRequestStatusByOng(req: IRequest, res: Response, next: NextFunction): Promise<void> {
         const request: InternalRequestDetailsInterface = await this._requestService.getRequestDetails(req.params.requestId, req.userId);
         
@@ -71,7 +79,15 @@ export class RequestController extends Controller {
                 action: request.action
             };
 
-            await this._historyService.add(historyData)
+            if (status === RequestStatus.COMPLETED) {
+                const value: number = this._getCredit(request.companyDetails);
+
+                if (value) {
+                    await this._userService.updateOne({ userId: request.companyId }, { $inc: { currentCredit: value }});
+                }
+            }
+
+            await this._historyService.add(historyData);
         } else {
             const filter: Record<string, unknown> = {
                 requestId: req.params.requestId

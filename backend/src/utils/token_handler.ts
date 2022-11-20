@@ -10,11 +10,11 @@ export class TokenHandler {
         this._verify = promisify(verify);
     }
 
-    public sign(data: object, secret: string, expire: number): Promise<string> {
-        return this._sign(data, secret, { expiresIn: expire });
+    public sign(payload: Record<string, unknown>, secret: string, expire: number): Promise<string> {
+        return this._sign(payload, secret, { expiresIn: expire });
     }
 
-    public async verify(token: string, secret: string): Promise<object> {
+    public async verify(token: string, secret: string): Promise<Record<string, unknown>> {
         return this._verify(token, secret);
     }
 };

@@ -60,11 +60,13 @@ export class HistoryService extends Service {
                     action: 1,
                     ong: {
                         cui: "$ongs.cui",
-                        email: "$ongs.email"
+                        email: "$ongs.email",
+                        name: "$ongs.name"
                     },
                     company: {
                         cui: "$companies.cui",
-                        email: "$companies.email"
+                        email: "$companies.email",
+                        name: "$companies.name"
                     },
                     ongDetails: 1,
                     companyDetails: 1,

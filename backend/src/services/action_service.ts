@@ -83,7 +83,8 @@ export class ActionService extends Service {
                     description: 1,
                     ong: {
                         email: '$ongs.email',
-                        cui: '$ongs.cui'
+                        cui: '$ongs.cui',
+                        name: "$ongs.name"
                     }
                 }
             }

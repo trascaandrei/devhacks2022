@@ -10,11 +10,14 @@ import { ErrorHandler } from './middlewares/error_handler';
 import { ActionRoutes } from './routes/action_routes';
 import { RequestRoutes } from './routes/request_routes';
 import { HistoryRoutes } from './routes/history_routes';
+import { AuthRoutes } from './routes/auth_routes';
+import { ApiCaller } from './core/ApiCaller';
 
 export class App {
 	private _app: Application;
 	private _db: DbConnection;
 	private _errorHandler: ErrorHandler;
+	private _apiCaller: ApiCaller;
 
 	constructor() {
 		this._app = express();
@@ -29,6 +32,8 @@ export class App {
 
 		this._errorHandler = new ErrorHandler();
 
+		this._apiCaller = new ApiCaller();
+
 		this.setConfig();
 	}
 
@@ -42,7 +47,10 @@ export class App {
 		/* enables cors */
 		this._app.use(cors({ credentials: true, origin: Config.ORIGIN }));
 
-		/* add routes */
+		/* add API login & signup */
+		this._app.use('/', new AuthRoutes(this._apiCaller).getRouter());
+
+		/* add API routes */
 		this._app.use('/api/v1/activities', new ActivityRoutes().getRouter());
 		this._app.use('/api/v1/actions', new ActionRoutes().getRouter());
 		this._app.use('/api/v1/requests', new RequestRoutes().getRouter());
