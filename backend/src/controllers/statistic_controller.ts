@@ -30,7 +30,6 @@ export class StatisticController extends Controller {
 
     private _processResult(requests, result) {
         for (let i = 0; i < requests.length; ++i) {
-            const factor: number = Math.round(requests[i].activities.length / 20);
             let current: number = 0;
             let step = 0;
 
@@ -42,6 +41,7 @@ export class StatisticController extends Controller {
                 result[requests[i].status][strDate] = []
                 current = j;
 
+                const factor: number = Math.round((Math.random() + 1) * Math.round(requests[i].activities.length / 20));
                 for (let k = current; k < requests[i].activities.length && k < current + factor; ++k) {
                     result[requests[i].status][strDate].push({
                         action: requests[i].actions[k],
