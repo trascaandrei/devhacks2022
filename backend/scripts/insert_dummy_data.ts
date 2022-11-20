@@ -1,6 +1,6 @@
 import * as dotnev from 'dotenv';
 import { v4 } from 'uuid';
-import { ConnectOptions } from 'mongoose';
+import { ConnectOptions, LeanDocument } from 'mongoose';
 dotnev.config({
     path: './.env'
 });
@@ -8,13 +8,19 @@ dotnev.config({
 import { Config } from '../src/config/config';
 import { DbConnection } from '../src/db';
 import { ActivityService } from '../src/services/activity_service';
+import { ActionService } from '../src/services/action_service';
 import { UserService } from '../src/services/user_service';
+import { RequestService } from '../src/services/request_service';
+import { HistoryService } from '../src/services/history_service';
 import { ActivityInterface } from '../src/interfaces/activity_interface';
 import { UserInterface } from '../src/interfaces/user_interface';
 import { UserType } from '../src/utils/user_type';
 import fs from 'fs';
 import path from 'path';
 import { parse } from 'csv-parse';
+import { ActionDetailsInterface } from '../src/interfaces/action_detail_interface';
+import { RequestStatus } from '../src/utils/request_status';
+import { RequestDetailsInterface } from '../src/interfaces/request_details_interface';
 
 type EntryInfo = {
     userId: string;
@@ -52,10 +58,16 @@ class Runner {
 
     private _userService: UserService;
     private _activityService: ActivityService;
+    private _actionService: ActionService;
+    private _requestService: RequestService;
+    private _historyService: HistoryService;
 
     constructor () {
         this._userService = new UserService();
         this._activityService = new ActivityService();
+        this._actionService = new ActionService();
+        this._requestService = new RequestService();
+        this._historyService = new HistoryService();
     }
 
     /**
@@ -225,6 +237,10 @@ class Runner {
         await Promise.all(content.filter((entry) => { return entry.type === UserType.COMPANY; }).map((entry) => {
             return this._userService.add({ ...entry, userId: v4(), currentCredit: 0, targetCredit: 1000 });
         }));
+
+        await Promise.all(content.filter((entry) => { return entry.type === UserType.ONG; }).map((entry) => {
+            return this._userService.add({ ...entry, userId: v4() });
+        }));
     }
 
     private async _run(file: string): Promise<void> {
@@ -237,6 +253,83 @@ class Runner {
             await this._insertDummyActivities();
         }
     };
+
+    private async _populate(): Promise<void> {
+        const companies: LeanDocument<UserInterface>[] = await this._userService.find({ type: UserType.COMPANY }, { _id: 0, userId: 1 });
+        const ongs: LeanDocument<UserInterface>[] = await this._userService.find({ type: UserType.ONG }, { _id: 0, userId: 1 });
+        const activities: LeanDocument<ActivityInterface>[] = await this._activityService.find({}, { _id: 0, activityId: 1 });
+        
+        /* create actions */
+        await Promise.all(Array.apply(null, new Array(8000)).map((_: null, index: number) => {
+            const action: Record<string, any> = {
+                actionId: v4(),
+                ongId: ongs[index % ongs.length].userId,
+                activityId: activities[index % activities.length].activityId,
+                title: index % 2 ? 'Plantare copaci in Tineretului' : 'Adunare gunoaie spatii verzi',
+                description: index % 2 ? 'Green everywhere campaign' : 'Clean green spaces campaign',
+                details: {}
+            };
+
+            if (index % 2) {
+                action.details.nrSquareMeters = (index + 1) * 50;
+            } else {
+                action.details.nrTrees = (index + 1) * 50;
+            }
+
+            return this._actionService.add(action);
+        }));
+
+        const actions: LeanDocument<ActionDetailsInterface>[] = await this._actionService.findActions({});
+
+        /* create requests */
+        await Promise.all(Array.apply(null, new Array(3000)).map((_: null, index: number) => {
+            const request: Record<string, any> = {
+                requestId: v4(),
+                actionId: actions[index % actions.length].actionId,
+                companyId: companies[index % companies.length].userId,
+                status: (index % 2) ? RequestStatus.PENDING : RequestStatus.ACCEPTED,
+                details: {}
+            };
+
+            if (index % 2) {
+                request.details.nrSquareMeters = (index + 1) * 10;
+            } else {
+                request.details.nrTrees = (index + 1) * 10;
+            }
+
+            return this._requestService.add(request);
+        }));
+
+        const requests: RequestDetailsInterface[] = await this._requestService.findRequests({});
+
+        /* create histories */
+        await Promise.all(Array.apply(null, new Array(5000)).map((_: null, index: number) => {
+            const history: Record<string, any> = {
+                historyId: v4(),
+                activityId: activities[index % activities.length].activityId,
+                companyId: companies[index % companies.length].userId,
+                ongId: ongs[index % ongs.length].userId,
+                status: (index % 2) ? RequestStatus.REJECTED : RequestStatus.COMPLETED,
+                ongDetails: {},
+                companyDetails: {},
+                action: {
+                    title: index % 2 ? 'Plantare copaci in Tineretului' : 'Adunare gunoaie spatii verzi',
+                    description: index % 2 ? 'Green everywhere campaign' : 'Clean green spaces campaign'
+                }
+            };
+
+            if (index % 2) {
+                history.ongDetails.nrSquareMeters = (index + 1) * 50;
+                history.companyDetails.nrSquareMeters = (index + 1) * 20;
+            } else {
+                history.ongDetails.nrTrees = (index + 1) * 10;
+                history.companyDetails.nrTrees = (index + 1) * 3;
+
+            }
+
+            return this._historyService.add(history);
+        }));
+    }
 
     public async start(args: string[]): Promise<void> {
         /* parse cmd line arguments */
@@ -265,8 +358,9 @@ class Runner {
             const connection: Connection = new Connection(Config.MONGO_URI, options);
             await connection.initConnection();
 
-            /* process data */
             await this._run(opts_map['file']);
+
+            await this._populate();
             
             /* close db connection */
             await connection.disconnect();

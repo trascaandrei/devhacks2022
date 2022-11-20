@@ -16,6 +16,11 @@ cd scripts
 npx ts-node insert_dummy_data.ts
 ```
 
+```bash
+cd scripts
+npx ts-node insert_dummy_data.ts --file data.csv # populate db from file
+```
+
 ## Run server
 
 Before running the server make sure to define the following *.env* file in the project root directory

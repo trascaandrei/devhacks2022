@@ -3,6 +3,7 @@ import { User } from '../models/user_model';
 import { UserInterface } from '../interfaces/user_interface';
 import { Constants } from '../constants';
 import { ServerError } from '../errors/server_error';
+import { LeanDocument } from 'mongoose';
 
 export class UserService extends Service {
     public async findOne(filter: object, projection: object = {}): Promise<UserInterface> {
@@ -23,5 +24,9 @@ export class UserService extends Service {
 
     public async updateOne(filter: Record<string, unknown>, data: Record<string, unknown>) {
         return User.updateOne(filter, data)
+    }
+
+    public async find(filter: Record<string, unknown> = {}, projection: Record<string, unknown> = {}): Promise<LeanDocument<UserInterface>[]> {
+        return User.find(filter, projection).exec();
     }
 };
